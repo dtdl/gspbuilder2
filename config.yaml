@@ -1,0 +1,46 @@
+generator.typ: local
+
+local:
+   url:
+      gc: D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc
+      dwh: D:\Projects\Nikko\E41-svn\trunk\customdwh
+
+svn:
+   url:
+      gc: http://svn/psg/NIKKO/trunk/customgc
+      dwh: http://svn/psg/NIKKO/trunk/customdwh
+   user: dtao
+   pass: Gsource@789
+   version.from: 0
+   version.to: 998
+   
+git:
+
+build.gc:
+   base:
+      version: 8.7.2.166
+   package:
+      name: NIKKO_CustomGC
+      type: full
+      stream: gc
+      version: 8.7.2.01
+   dir:
+      base: ./
+      temp: ./customgc_temp
+      package: ./package
+   rulejar: NIKKOCustomGCRule.jar
+   
+build.dwh:
+   base:
+      version: 8.7.2.16
+   package:
+      name: NIKKO_CustomDWH
+      type: full
+      stream: vddb
+      version: 8.7.2.01
+   dir:
+      base: ./
+      temp: ./customdwh_temp
+      package: ./package
+   rulejar: NIKKOCustoDWHRule.jar
+

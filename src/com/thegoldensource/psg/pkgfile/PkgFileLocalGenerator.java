@@ -21,7 +21,7 @@ public class PkgFileLocalGenerator extends BasePkgFileGenerator {
 	 * 
 	 */
 	protected PkgFileLocalGenerator() {
-		typ = GeneratorType.LOCAL;
+		typ = GeneratorType.local;
 	}
 	
 	/**
@@ -29,11 +29,12 @@ public class PkgFileLocalGenerator extends BasePkgFileGenerator {
 	 */
 	@Override
 	protected List<GSComponent> getComponentList() {
-		logger.debug("PkgFileLocalGenerator.getComponentList start");
+		logger.info("PkgFileLocalGenerator.getComponentList start");
 
 		// get the local component directory
-		String root = properties.getProperty("local.component.dir");
-		logger.debug(root);
+		//TODO check local path
+		String root = yamlConfig.getConfig("local.folder");
+		logger.debug("folder: " + root);
 		
         // get file list from local directory
         List<String> fileList = this.getFileList(root);
@@ -45,6 +46,8 @@ public class PkgFileLocalGenerator extends BasePkgFileGenerator {
         List<GSComponent> cmptList = new ArrayList<GSComponent>();
         for (String f: fileList) {
         	// change into linux folder format
+        	logger.debug("PkgFileLocalGenerator.getComponentList f" + f);
+        	logger.debug("PkgFileLocalGenerator.getComponentList root" + root);
         	cmptList.add(new GSComponent(f.replace("\\", "/"), root.replace("\\", "/")));
         }
         
@@ -52,17 +55,16 @@ public class PkgFileLocalGenerator extends BasePkgFileGenerator {
         	logger.debug("GSComponent:" + c);
         }
         
-		logger.debug("PkgFileLocalGenerator.getComponentList end");
+		logger.info("PkgFileLocalGenerator.getComponentList end");
 		return cmptList;
 	}
 	
 	/**
-	 * 
+	 * get the full file list of the folder path
 	 * @param path
 	 * @return
 	 */
 	private List<String> getFileList(String path) {
-		// TODO Auto-generated method stub
 		
         List<String> fileList = new ArrayList<String>();
         

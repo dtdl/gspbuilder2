@@ -1,23 +1,22 @@
 package com.thegoldensource.psg.model;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.log4j.Logger;
+
+import com.thegoldensource.util.YamlConfig;
 
 
 /**
  * 
- * @author GoldenSource
+ * @author David Tao
  *
  */
 public class GSComponent {
 
 	private static Map<String, String> cmptTypMap;
-	private static Properties properties = new Properties();
+//	private static Properties properties = new Properties();
 	private static final Logger logger = Logger.getLogger(GSComponent.class);
 
 	private String cmptTyp = "UNKNOWN";
@@ -31,26 +30,34 @@ public class GSComponent {
 	static {
 		cmptTypMap = new HashMap<String, String>();
 
-		BufferedReader bufferedReader;
-		try {
-			bufferedReader = new BufferedReader(new FileReader("build.properties"));
-			properties.load(bufferedReader);
 			
-			String cmptPaths = properties.get("component.paths").toString();
-			logger.debug(cmptPaths);
+		YamlConfig yamlConfig = new YamlConfig();
+		Map<String, Object> tmpMap = yamlConfig.getConfigMap("generator.componentpath");
+		
+		// reverse key/value for easier parsing later
+		for (String key : tmpMap.keySet()) {
+			cmptTypMap.put(tmpMap.get(key).toString(), key);
+		}
+		
+		
 			
-			String[] cmptPathArray = cmptPaths.split(";");	
-			for (String cmptPath : cmptPathArray) {
-				String cmpt = cmptPath.split(":")[0];
-				String path = cmptPath.split(":")[1];
-
-				cmptTypMap.put(path, cmpt);
-			}
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}		
+//		try {
+//			BufferedReader bufferedReader;
+//			bufferedReader = new BufferedReader(new FileReader("build.properties"));
+//			properties.load(bufferedReader);
+//			
+//			String cmptPaths = properties.get("component.paths").toString();
+//			logger.debug(cmptPaths);
+//			
+//			String[] cmptPathArray = cmptPaths.split(";");	
+//			for (String cmptPath : cmptPathArray) {
+//				String cmpt = cmptPath.split(":")[0];
+//				String path = cmptPath.split(":")[1];
+//				cmptTypMap.put(path, cmpt);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}		
 	}
 	
 	
@@ -63,7 +70,7 @@ public class GSComponent {
 	 */
 	public GSComponent(String cmptFullPath, String rootFolder) {
 		
-//		logger.debug("GSComponent start");
+		logger.debug("new GSComponent with: " + cmptFullPath );
 		
 		
 		this.cmptFullPath = cmptFullPath;
@@ -72,31 +79,21 @@ public class GSComponent {
 		
 		//TODO handle "\"
 		this.cmptName = cmptFullPath.substring(cmptFullPath.lastIndexOf("/")+1);
+		logger.debug("cmptPath:" + this.cmptPath);
+		logger.debug("cmptName:" + this.cmptName);
 		
+		// determine component type based on its folder
 		for (String key: GSComponent.cmptTypMap.keySet()) {
 			if (cmptFullPath.contains(key)) {
-				this.cmptTyp = GSComponent.cmptTypMap.get(key);
+				this.cmptTyp = GSComponent.cmptTypMap.get(key).toString();
 				this.cmptOrchPath = this.cmptPath.replace(this.cmptName, "").replace(key, "");
 				
-//				logger.debug(this.cmptTyp + ":" + this.cmptPath);
+				logger.info("new GSComponent:" + this.cmptTyp + ":" + this.cmptPath);
 				break;
 			}
 		}
 	}
 	
-	
-	/**
-	 * TODO to be replaced by yaml parser
-	 * @return
-	 */
-//	private static Map<String, ComponentType> initCmptTypMap() {
-//		Map<String, ComponentType> cmptTypMap = new HashMap<String, ComponentType>();
-//		cmptTypMap.put("\\resources\\mapping\\", ComponentType.WORKFLOW);
-//		cmptTypMap.put("\\vendordefinitions\\", ComponentType.VENDORDEFINITIOIN);
-//		return cmptTypMap;
-//	}
-
-
 	
 	public String getCmptPath() {
 		return cmptPath;
@@ -152,7 +149,7 @@ public class GSComponent {
 	public String toString() {
 		
 		String str = "{" + this.cmptTyp + ", isActive=" + this.active + 
-				", path=" + this.cmptPath + ", name=" + this.cmptName +
+				", cmptPath=" + this.cmptPath + ", cmptName=" + this.cmptName +
 				", cmptOrchPath=" + this.cmptOrchPath + "}";
 //		logger.debug("GSComponent.toString: " + str);
 		
@@ -162,13 +159,14 @@ public class GSComponent {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		GSComponent c = new GSComponent("D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration\\vendordefinitions\\NIKKO_CSV_LINEBYLINE.gsp", "D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration");
-		GSComponent c1 = new GSComponent("D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration\\resources\\mapping\\NIKKO\\BNP\\GC_BNP_ACCT.mdx", "D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration");
-		
+		GSComponent c = new GSComponent("D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration\\vendordefinitions\\NIKKO_CSV_LINEBYLINE.gsp".replace("\\", "/"), "D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration".replace("\\", "/"));
 		System.out.println(c);
+
+		GSComponent c1 = new GSComponent("D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration\\resources\\mapping\\NIKKO\\BNP\\GC_BNP_ACCT.mdx".replace("\\", "/"), "D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration".replace("\\", "/"));
 		System.out.println(c1);
 		
-		
+//		D:\Projects\Nikko\E41-svn\trunk\customgc\configuration\resources\mapping\NIKKO\BNP\GC_BNP_ISSU_NZFA_Valuation.mdx
+//		D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc
 		
 	}
 

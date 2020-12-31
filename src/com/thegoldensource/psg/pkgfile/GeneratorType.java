@@ -4,12 +4,12 @@
 package com.thegoldensource.psg.pkgfile;
 
 /**
- * @author GoldenSource
+ * @author David Tao
  *
  */
 public enum GeneratorType {
 	
-	LOCAL("LOCAL"), SVN("SVN"), GIT("GIT"), AUTO("AUTO");
+	local("local"), svn("svn"), git("git"), auto("auto");
 	
 	private String type;
 	

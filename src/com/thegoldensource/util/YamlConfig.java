@@ -107,6 +107,7 @@ public class YamlConfig {
 		logger.debug("nested level: " + keyArray.length);
 		
 		// fetch inner maps
+		// TODO, move to call getConfigMap
 		for (int i=0; i<keyArray.length-1; i++) {
 			
 			// TODO exception handling 
@@ -139,6 +140,31 @@ public class YamlConfig {
 	public Map<String, Object> getConfigMap() {
 		return configMap;
 	}
+
+	/**
+	 * 
+	 * @return the config in Map<String, Map/String>
+	 */
+	public Map<String, Object> getConfigMap(String keys) {
+		logger.debug("fetching config: " + keys);
+		Map<String, Object> tmpMap = configMap;
+		
+		// need to be documented that "." is hard coded here.
+		String[] keyArray = keys.split("\\.");	
+		logger.debug("nested level: " + keyArray.length);
+		
+		// fetch inner maps
+		for (int i=0; i<keyArray.length; i++) {
+			
+			// TODO exception handling 
+			// null point: "build.gc.base.x"
+			// class cast: "build.gc.base.version.x"
+			tmpMap = this.getInnerMap(tmpMap, keyArray[i]);
+			logger.debug("fetched config " + keyArray[i] + ": " + tmpMap);
+		}
+		
+		return tmpMap;
+	}
 	
 	public static void main(String[] args) {
 
@@ -147,6 +173,7 @@ public class YamlConfig {
 		System.out.println(y.getConfig("build.gc.base.version"));
 //		System.out.println(y.getConfig("build.gc.base.x"));
 //		System.out.println(y.getConfig("build.gc.base.version.x"));
+		System.out.println(y.getConfigMap("build.gc.base"));
 	}
 
 }

@@ -152,16 +152,15 @@ public abstract class BasePkgFileGenerator {
 	 */
 	public static BasePkgFileGenerator getInstance() {
 		
-		
 		BasePkgFileGenerator gen = null; 
 		
 		switch(typ){
-    	case local:
-    		gen = new PkgFileLocalGenerator();
-    	case svn:
-    		break;
-    	case git:
-    		break;
+		case local:
+			gen = new PkgFileLocalGenerator();
+		case svn:
+			break;
+		case git:
+			break;
 		default:
 			break;
 		}
@@ -177,20 +176,19 @@ public abstract class BasePkgFileGenerator {
 	public static BasePkgFileGenerator getInstance(GeneratorType type) {
 		
 		BasePkgFileGenerator gen = null; 
-		
 		switch(type){
-        	case local:
-        		gen = new PkgFileLocalGenerator();
-        	case svn:
-        		break;
-        	case git:
-        		break;
-        	case auto:
-        		gen = BasePkgFileGenerator.getInstance();
+		case local:
+			gen = new PkgFileLocalGenerator();
+		case svn:
+			break;
+		case git:
+			break;
+		case auto:
+			gen = BasePkgFileGenerator.getInstance();
 		}
-		
 		return gen;
 	}
+	
 	
 	public static void main(String[] args) {
 		

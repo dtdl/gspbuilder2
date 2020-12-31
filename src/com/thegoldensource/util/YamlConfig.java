@@ -47,11 +47,10 @@ public class YamlConfig {
 	}
 	
 	public YamlConfig() {
-		
 	}
 	
 	/**
-	 * @deprecated for testing purpose only
+	 * @deprecated for debugging purpose only
 	 * @param map
 	 * @param count
 	 */
@@ -101,31 +100,41 @@ public class YamlConfig {
 	public String getConfig(String keys) {
 		logger.debug("fetching config: " + keys);
 		Map<String, Object> tmpMap = configMap;
+		String val = null;
 		
 		// need to be documented that "." is hard coded here.
 		String[] keyArray = keys.split("\\.");	
 		logger.debug("nested level: " + keyArray.length);
 		
+		// fetch inner maps
 		for (int i=0; i<keyArray.length-1; i++) {
-			tmpMap = this.getMiddleMap(tmpMap, keyArray[i]);
+			
+			// TODO exception handling 
+			// null point: "build.gc.base.x"
+			// class cast: "build.gc.base.version.x"
+			tmpMap = this.getInnerMap(tmpMap, keyArray[i]);
 			logger.debug("fetched config " + keyArray[i] + ": " + tmpMap);
 		}
 		
-		String val = tmpMap.get(keyArray[keyArray.length-1]).toString();
-		
+		// get last level String
+		val = tmpMap.get(keyArray[keyArray.length-1]).toString();
 		logger.info("fetched config " + keys + "= " + val);
-		
 		return val;
 	}
 	
-
-	private Map<String, Object> getMiddleMap(Map<String, Object> tmpMap, String key) {
+	/**
+	 * used for nested loop
+	 * @param tmpMap
+	 * @param key
+	 * @return
+	 */
+	private Map<String, Object> getInnerMap(Map<String, Object> tmpMap, String key) {
 		return (Map<String, Object>) tmpMap.get(key);
 	}
 
 	/**
 	 * 
-	 * @return the full config in Map<String, Map/String>
+	 * @return the config in Map<String, Map/String>
 	 */
 	public Map<String, Object> getConfigMap() {
 		return configMap;
@@ -136,6 +145,8 @@ public class YamlConfig {
 		YamlConfig y = new YamlConfig();
 		System.out.println(y.getConfig("svn.user"));
 		System.out.println(y.getConfig("build.gc.base.version"));
+//		System.out.println(y.getConfig("build.gc.base.x"));
+//		System.out.println(y.getConfig("build.gc.base.version.x"));
 	}
 
 }

@@ -1,14 +1,41 @@
-generator.typ: local
+### important: key should not contain "."! e.g. "build.gc" will cause an exception
 
+## to use the config in FreeMarker:
+# ${yamlConfig["generator"]["typ"]}
+## to use the config in Java:
+# YamlConfig.getConfig("generator.typ");
+
+generator:
+   typ: local  ## tetsing
+   componentpath:
+      resource: /resources/
+      vendordifinition: /vendordefinitions/
+      workflow: /workflows/
+      task: /tasks/
+      ddl: /sql/DDL/
+      dml: /sql/DML/
+   file:
+      packagedescriptiongc: 
+         name: PackageDescription.xml
+         template: PackageDescription.ftl
+      packagedescriptionengine: 
+         name: PackageDescription.Engine.xml
+         template: PackageDescription.Engine.ftl
+      buildxml:
+         name: build.xml
+         template: buildxml.ftl
+      buildproperties:
+         name: build.properties
+         template: buildproperties.ftl
+               
 local:
-   url:
-      gc: D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc
-      dwh: D:\Projects\Nikko\E41-svn\trunk\customdwh
+   folder: D:\Projects\Nikko\E41-svn\trunk\customgc\configuration
+#      dwh: D:\Projects\Nikko\E41-svn\trunk\customdwh\configuration
 
 svn:
    url:
       gc: http://svn/psg/NIKKO/trunk/customgc
-      dwh: http://svn/psg/NIKKO/trunk/customdwh
+#      dwh: http://svn/psg/NIKKO/trunk/customdwh
    user: dtao
    pass: Gsource@789
    version.from: 0
@@ -16,31 +43,32 @@ svn:
    
 git:
 
-build.gc:
-   base:
-      version: 8.7.2.166
-   package:
-      name: NIKKO_CustomGC
-      type: full
-      stream: gc
-      version: 8.7.2.01
+package:
+   baseversion: 8.7.2.10
+   version: 8.7.2.01
+   name: NIKKO_CustomGC
+   type: full
+   enginejar: NIKKOCustomGCRule.jar
+#         stream: gc
+
+ant:
    dir:
       base: ./
       temp: ./customgc_temp
       package: ./package
-   rulejar: NIKKOCustomGCRule.jar
-   
-build.dwh:
-   base:
-      version: 8.7.2.16
-   package:
-      name: NIKKO_CustomDWH
-      type: full
-      stream: vddb
-      version: 8.7.2.01
-   dir:
-      base: ./
-      temp: ./customdwh_temp
-      package: ./package
-   rulejar: NIKKOCustoDWHRule.jar
+
+#r
+#   dwh:
+#      base:
+##         version: 8.7.2.16
+#      package:
+#         name: NIKKO_CustomDWH
+#         type: full
+#         stream: vddb
+#         version: 8.7.2.01
+#      dir:
+#         base: ./
+#         temp: ./customdwh_temp
+#         package: ./package
+#      rulejar: NIKKOCustoDWHRule.jar
 

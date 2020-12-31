@@ -9,6 +9,8 @@ import org.apache.log4j.Logger;
 import com.thegoldensource.psg.model.GSComponent;
 
 /**
+ * To produce a component list from a local "configuration" folder.
+ * 
  * 
  * @author David Tao
  */

@@ -30,16 +30,14 @@ generator:
                
 local:
    folder: D:\Projects\Nikko\E41-svn\trunk\customgc\configuration
-#      dwh: D:\Projects\Nikko\E41-svn\trunk\customdwh\configuration
+#   folder: D:\Projects\Nikko\E41-svn\trunk\customdwh\configuration
 
 svn:
-   url:
-      gc: http://svn/psg/NIKKO/trunk/customgc
-#      dwh: http://svn/psg/NIKKO/trunk/customdwh
+   url: http://svn/psg/NIKKO/trunk/customgc/configuration
    user: dtao
    pass: Gsource@789
-   version.from: 0
-   version.to: 998
+   versionfrom: 0
+   versionto: 998
    
 git:
 
@@ -57,19 +55,4 @@ ant:
       base: ./
       temp: ./customgc_temp
       package: ./package
-
-#r
-#   dwh:
-#      base:
-##         version: 8.7.2.16
-#      package:
-#         name: NIKKO_CustomDWH
-#         type: full
-#         stream: vddb
-#         version: 8.7.2.01
-#      dir:
-#         base: ./
-#         temp: ./customdwh_temp
-#         package: ./package
-#      rulejar: NIKKOCustoDWHRule.jar
 

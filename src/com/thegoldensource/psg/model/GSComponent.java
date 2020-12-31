@@ -16,7 +16,6 @@ import com.thegoldensource.util.YamlConfig;
 public class GSComponent {
 
 	private static Map<String, String> cmptTypMap;
-//	private static Properties properties = new Properties();
 	private static final Logger logger = Logger.getLogger(GSComponent.class);
 
 	private String cmptTyp = "UNKNOWN";
@@ -26,11 +25,10 @@ public class GSComponent {
 	private String cmptPath;
 	private String cmptOrchPath;
 	
-	
 	static {
 		cmptTypMap = new HashMap<String, String>();
-
-			
+		
+		// load component path from config.yaml
 		YamlConfig yamlConfig = new YamlConfig();
 		Map<String, Object> tmpMap = yamlConfig.getConfigMap("generator.componentpath");
 		
@@ -38,40 +36,15 @@ public class GSComponent {
 		for (String key : tmpMap.keySet()) {
 			cmptTypMap.put(tmpMap.get(key).toString(), key);
 		}
-		
-		
-			
-//		try {
-//			BufferedReader bufferedReader;
-//			bufferedReader = new BufferedReader(new FileReader("build.properties"));
-//			properties.load(bufferedReader);
-//			
-//			String cmptPaths = properties.get("component.paths").toString();
-//			logger.debug(cmptPaths);
-//			
-//			String[] cmptPathArray = cmptPaths.split(";");	
-//			for (String cmptPath : cmptPathArray) {
-//				String cmpt = cmptPath.split(":")[0];
-//				String path = cmptPath.split(":")[1];
-//				cmptTypMap.put(path, cmpt);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}		
-	}
-	
-	
-	public GSComponent() {
 	}
 	
 	/**
-	 * 
-	 * @param cmptPath
+	 * Component expect a linux style path, meaning "/", instead of "\"
+	 * @param cmptFullPath, the full path of the component 
+	 * @param rootFolder, basically the "configuration" folder
 	 */
 	public GSComponent(String cmptFullPath, String rootFolder) {
-		
 		logger.debug("new GSComponent with: " + cmptFullPath );
-		
 		
 		this.cmptFullPath = cmptFullPath;
 		this.active = true;
@@ -144,30 +117,22 @@ public class GSComponent {
 	}
 	
 	/**
-	 * 
+	 * @return String
 	 */
 	public String toString() {
-		
 		String str = "{" + this.cmptTyp + ", isActive=" + this.active + 
 				", cmptPath=" + this.cmptPath + ", cmptName=" + this.cmptName +
 				", cmptOrchPath=" + this.cmptOrchPath + "}";
-//		logger.debug("GSComponent.toString: " + str);
-		
 		return str;
 	}
 
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 		GSComponent c = new GSComponent("D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration\\vendordefinitions\\NIKKO_CSV_LINEBYLINE.gsp".replace("\\", "/"), "D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration".replace("\\", "/"));
 		System.out.println(c);
 
 		GSComponent c1 = new GSComponent("D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration\\resources\\mapping\\NIKKO\\BNP\\GC_BNP_ACCT.mdx".replace("\\", "/"), "D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration".replace("\\", "/"));
 		System.out.println(c1);
-		
-//		D:\Projects\Nikko\E41-svn\trunk\customgc\configuration\resources\mapping\NIKKO\BNP\GC_BNP_ISSU_NZFA_Valuation.mdx
-//		D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc
-		
 	}
-
 }

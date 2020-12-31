@@ -20,7 +20,7 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 
 /**
- * Abstract generator which defines the general process of generating packing required packagedescription.xml and build.xml:
+ * Abstract generator which defines the general process of generating packing required files
  * Also a static factory of actual children generators.
  * 
  * @author David Tao

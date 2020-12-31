@@ -48,7 +48,8 @@ package:
    version: 8.7.2.01
    name: NIKKO_CustomGC
    type: full
-   enginejar: NIKKOCustomGCRule.jar
+   enginename: NIKKO_CustomEngine
+   enginejar: NIKKOCustomRule.jar
 #         stream: gc
 
 ant:

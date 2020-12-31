@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.yaml.snakeyaml.Yaml;
@@ -17,6 +15,7 @@ import org.yaml.snakeyaml.Yaml;
  * @author David Tao
  *
  */
+@SuppressWarnings("unchecked")
 public class YamlConfig {
 	
 	static private final Logger logger = Logger.getLogger(YamlConfig.class);
@@ -49,43 +48,6 @@ public class YamlConfig {
 	public YamlConfig() {
 	}
 	
-	/**
-	 * @deprecated for debugging purpose only
-	 * @param map
-	 * @param count
-	 */
-	private void printConfig(Map map, int count){
-        Set set = map.keySet();
-        for(Object key: set){
-
-            Object value = map.get(key);
-
-            for(int i=0; i<count; i++){
-                logger.debug("  ");
-            }
-
-            if(value instanceof Map) {
-
-                logger.debug(key+":");
-                printConfig((Map)value, count+1);
-            }else if(value instanceof List){
-
-                logger.debug(key+":");
-                for(Object obj: (List)value){
-                    for(int i=0; i<count; i++){
-                        logger.debug("    ");
-                    }
-                    logger.debug("    - "+obj.toString());
-                }
-            }else{
-
-                logger.debug(key + ": " + value);
-            }
-        }
-    }
-	
-
-
 	/**
 	 * fetch the value from nested Map.
 	 * e.g. use getConfig("svn.user") to get below config.

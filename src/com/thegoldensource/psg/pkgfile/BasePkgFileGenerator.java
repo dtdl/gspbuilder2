@@ -23,9 +23,7 @@ import freemarker.template.TemplateExceptionHandler;
  * Abstract generator which defines the general process of generating packing required packagedescription.xml and build.xml:
  * Also a static factory of actual children generators.
  * 
- * 
  * @author David Tao
- *
  */
 public abstract class BasePkgFileGenerator {
 
@@ -46,7 +44,6 @@ public abstract class BasePkgFileGenerator {
 	 * 
 	 */
 	public void generate() {
-		
 		logger.info("BasePkgFileGenerator.generate start");
 		
 		// get component list (defer to children generator)
@@ -68,11 +65,9 @@ public abstract class BasePkgFileGenerator {
 	 * 
 	 * @param cmpList
 	 */
+	@SuppressWarnings("unchecked")
 	private void generateFiles(List<GSComponent> cmpList) {
-		
 		logger.info("BasePkgFileGenerator.generateFiles start");
-		
-
 		
 		// initial freemarker
 		// Create your Configuration instance, and specify if up to what FreeMarker
@@ -91,15 +86,12 @@ public abstract class BasePkgFileGenerator {
 		cfg.setWrapUncheckedExceptions(true);
 		// Do not fall back to higher scopes when reading a null loop variable:
 		cfg.setFallbackOnNullLoopVariable(false);
-
-		
 		
 		// Specify the source where the template files come from. Here I set a
 		// plain directory for it, but non-file-system sources are possible too:
 		try {
 			cfg.setDirectoryForTemplateLoading(new File("./template"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -112,7 +104,7 @@ public abstract class BasePkgFileGenerator {
 		Map<String, Object> filesMap = yamlConfig.getConfigMap("generator.file");
 		logger.debug("files to be generated: " + filesMap);
 
-		//
+		// generate each file
 		try {
 			for (Object fileObj : filesMap.values()) {
 
@@ -123,7 +115,7 @@ public abstract class BasePkgFileGenerator {
 				
 				// get fm template  
 				Template temp = cfg.getTemplate(fileTemplate);
-				// target file
+				// target out file
 				Writer out = new FileWriter(new File(fileName));
 //				Writer out = new OutputStreamWriter(System.out);
 				
@@ -133,15 +125,12 @@ public abstract class BasePkgFileGenerator {
 				logger.debug("file generated: " + fileName + " by " + fileTemplate);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (TemplateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		logger.info("BasePkgFileGenerator.generateFiles end");
-		
 	}
 
 
@@ -151,7 +140,6 @@ public abstract class BasePkgFileGenerator {
 	 * @return an instance of Generator based on the configured property
 	 */
 	public static BasePkgFileGenerator getInstance() {
-		
 		BasePkgFileGenerator gen = null; 
 		
 		switch(typ){
@@ -169,7 +157,7 @@ public abstract class BasePkgFileGenerator {
 	}
 	
 	/**
-	 * 
+	 * @deprecated not really useful
 	 * @param type
 	 * @return an instance of Generator
 	 */
@@ -194,7 +182,6 @@ public abstract class BasePkgFileGenerator {
 		
 		BasePkgFileGenerator gen = BasePkgFileGenerator.getInstance();
 		gen.generate();
-
 	}
 
 }

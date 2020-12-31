@@ -11,7 +11,6 @@ import com.thegoldensource.psg.model.GSComponent;
 /**
  * 
  * @author David Tao
- *
  */
 public class PkgFileLocalGenerator extends BasePkgFileGenerator {
 
@@ -29,10 +28,9 @@ public class PkgFileLocalGenerator extends BasePkgFileGenerator {
 	 */
 	@Override
 	protected List<GSComponent> getComponentList() {
-		logger.info("PkgFileLocalGenerator.getComponentList start");
+		logger.info("getComponentList start");
 
 		// get the local component directory
-		//TODO check local path
 		String root = yamlConfig.getConfig("local.folder");
 		logger.debug("folder: " + root);
 		
@@ -45,17 +43,16 @@ public class PkgFileLocalGenerator extends BasePkgFileGenerator {
         // convert to component list
         List<GSComponent> cmptList = new ArrayList<GSComponent>();
         for (String f: fileList) {
-        	// change into linux folder format
         	logger.debug("PkgFileLocalGenerator.getComponentList f" + f);
         	logger.debug("PkgFileLocalGenerator.getComponentList root" + root);
+        	// change into linux folder format
         	cmptList.add(new GSComponent(f.replace("\\", "/"), root.replace("\\", "/")));
         }
+//        for (GSComponent c: cmptList) {
+//        	logger.debug("GSComponent:" + c);
+//        }
         
-        for (GSComponent c: cmptList) {
-        	logger.debug("GSComponent:" + c);
-        }
-        
-		logger.info("PkgFileLocalGenerator.getComponentList end");
+		logger.info("getComponentList end");
 		return cmptList;
 	}
 	
@@ -87,8 +84,6 @@ public class PkgFileLocalGenerator extends BasePkgFileGenerator {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
 		
 		PkgFileLocalGenerator gen = new PkgFileLocalGenerator();
 		gen.generate();

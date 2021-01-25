@@ -1,8 +1,9 @@
-### important: key should not contain "."! e.g. "build.gc" will cause an exception
+### important: key should not contain "."! 
+### e.g. "build.gc" will cause an exception
 
-## to use the config in FreeMarker:
+### to use the config in FreeMarker:
 # ${yamlConfig["generator"]["typ"]}
-## to use the config in Java:
+### to use the config in Java:
 # YamlConfig.getConfig("generator.typ");
 
 generator:
@@ -14,10 +15,14 @@ generator:
       task: /tasks/
       ddl: /sql/DDL/
       dml: /sql/DML/
+      gso: /gso/GSOConfig/
    file:
       packagedescriptiongc: 
          name: PackageDescription.xml
          template: PackageDescription.ftl
+      packagedescriptiondwh: 
+         name: PackageDescription.Dwh.xml
+         template: PackageDescription.Dwh.ftl
       packagedescriptionengine: 
          name: PackageDescription.Engine.xml
          template: PackageDescription.Engine.ftl
@@ -35,14 +40,20 @@ local:
 svn:
    url: http://svn/psg/NIKKO/trunk/customgc/configuration
    user: dtao
-   pass: Gsource@789
+   pass: Encrypted::9BD53DEF2BF02614312E837AE69EB66ACA15E231001F8766BCE1041138FC137B
    versionfrom: 0
    versionto: 998
    
 git:
+   url: http://svn/psg/NIKKO/trunk/customgc/configuration
+   user: dtao
+   pass: Encrypted::9BD53DEF2BF02614312E837AE69EB66ACA15E231001F8766BCE1041138FC137B
+   versionfrom: 0
+   versionto: 998
 
+   
 package:
-   baseversion: 8.7.2.10
+   baseversion: 8.7.2.x
    version: 8.7.2.01
    name: NIKKO_CustomGC
    type: full

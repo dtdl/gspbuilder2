@@ -1,5 +1,6 @@
 package com.thegoldensource.psg.model;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ import com.thegoldensource.util.YamlConfig;
  * @author David Tao
  *
  */
-public class GSComponent {
+public class GSComponent implements Comparator<GSComponent> {
 
 	private static Map<String, String> cmptTypMap;
 	private static final Logger logger = Logger.getLogger(GSComponent.class);
@@ -36,6 +37,9 @@ public class GSComponent {
 		for (String key : tmpMap.keySet()) {
 			cmptTypMap.put(tmpMap.get(key).toString(), key);
 		}
+	}
+	
+	public GSComponent() {
 	}
 	
 	/**
@@ -134,5 +138,12 @@ public class GSComponent {
 
 		GSComponent c1 = new GSComponent("D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration\\resources\\mapping\\NIKKO\\BNP\\GC_BNP_ACCT.mdx".replace("\\", "/"), "D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration".replace("\\", "/"));
 		System.out.println(c1);
+	}
+
+
+	@Override
+	public int compare(GSComponent c1, GSComponent c2) {
+		return c1.getCmptName().compareTo(c2.getCmptName());
+//		return c1.getCmptFullPath().compareTo(c2.getCmptFullPath());
 	}
 }

@@ -2,6 +2,7 @@ package com.thegoldensource.psg.pkgfile;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -53,6 +54,10 @@ public class PkgFileLocalGenerator extends BasePkgFileGenerator {
 //        for (GSComponent c: cmptList) {
 //        	logger.debug("GSComponent:" + c);
 //        }
+        
+		//TODO sort component by name
+        cmptList.sort(new GSComponent());
+        
         
 		logger.info("getComponentList end");
 		return cmptList;

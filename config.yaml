@@ -7,7 +7,8 @@
 # YamlConfig.getConfig("generator.typ");
 
 generator:
-   typ: local  ## tetsing
+   typ: local  ## one of local/svn/git
+   target: packagedescriptiongc,packagedescriptiondwh,packagedescriptionengine,buildxml,buildproperties ## can be overwritten by run parameters.
    componentpath:
       resource: /resources/
       vendordifinition: /vendordefinitions/

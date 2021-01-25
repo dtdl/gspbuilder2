@@ -82,6 +82,12 @@ public class YamlConfig {
 		// get last level String
 		val = tmpMap.get(keyArray[keyArray.length-1]).toString();
 		logger.info("fetched config " + keys + "= " + val);
+		
+		// decrypt if required
+		if (val.contains("Encrypted::")) {
+			val = Utils.DecryptPassword(val).trim();
+			logger.info("decrypted config " + keys + "= " + val);
+		}
 		return val;
 	}
 	
@@ -132,10 +138,12 @@ public class YamlConfig {
 
 		YamlConfig y = new YamlConfig();
 		System.out.println(y.getConfig("svn.user"));
-		System.out.println(y.getConfig("build.gc.base.version"));
+		System.out.println(y.getConfig("svn.pass"));
+		System.out.println(y.getConfig("generator.target"));
+//		System.out.println(y.getConfig("build.gc.base.version"));
 //		System.out.println(y.getConfig("build.gc.base.x"));
 //		System.out.println(y.getConfig("build.gc.base.version.x"));
-		System.out.println(y.getConfigMap("build.gc.base"));
+//		System.out.println(y.getConfigMap("build.gc.base"));
 	}
 
 }

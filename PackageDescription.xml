@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<PackageDescription minInstallCenterVersion="8.7.2.10" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PackageDescription.xsd">
+<PackageDescription minInstallCenterVersion="8.7.2.x" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PackageDescription.xsd">
 	<Package name="NIKKO_CustomGC" type="full" version="8.7.2.01">
 		<Component>NIKKO_CustomGC</Component>
 		<Description>NIKKO_CustomGC</Description>
@@ -11,19 +11,19 @@
 	<Deployment>
 		<Prerequisites>
 			<Product id="datamodel" name="Datamodel GSDM" type="GOLDENSOURCE">
-				<Version min="8.7.2.10"/>
+				<Version min="8.7.2.x"/>
 			</Product>
 			<Product id="dmgso" name="Datamodel GoldenSource Objects" type="GOLDENSOURCE">
-				<Version min="8.7.2.10"/>
+				<Version min="8.7.2.x"/>
 			</Product>
 			<Product id="stgso" name="Starterset GoldenSource Objects" type="GOLDENSOURCE">
-				<Version min="8.7.2.10"/>
+				<Version min="8.7.2.x"/>
 			</Product>
 			<Product id="configuration" name="Datamodel Configuration" type="GOLDENSOURCE">
-				<Version min="8.7.2.10"/>
+				<Version min="8.7.2.x"/>
 			</Product>
 			<Product id="workflow" name="Datamodel Workflow" type="GOLDENSOURCE">
-				<Version min="8.7.2.10"/>
+				<Version min="8.7.2.x"/>
 			</Product>
 		</Prerequisites>
 		<Locations>
@@ -62,6 +62,7 @@
 			<!--END SaveLOB-->
 
 			<!--START RESOURCE-->
+			<deployResource name="resource: BNPLineSplitter.xml" destLoc="CFDataModel" src="tmp_out/resources/xml/feeds/NIKKO/BNPLineSplitter.xml" dest="xml/feeds/NIKKO/" encoding="UTF-8"/>
 			<deployResource name="resource: BNP_to_DMP.ttl" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/BNP_to_DMP.ttl" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
 			<deployResource name="resource: GC_BNP_ACCT.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/GC_BNP_ACCT.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
 			<deployResource name="resource: GC_BNP_ISSU_NZFA_Valuation.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/GC_BNP_ISSU_NZFA_Valuation.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
@@ -69,10 +70,9 @@
 			<deployResource name="resource: GC_BNP_ISSU_SGFA_INVENTORY.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/GC_BNP_ISSU_SGFA_INVENTORY.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
 			<deployResource name="resource: GC_BNP_ISSU_SGFA_NAV.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/GC_BNP_ISSU_SGFA_NAV.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
 			<deployResource name="resource: GC_BNP_ISSU_SODPME.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/GC_BNP_ISSU_SODPME.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
-			<deployResource name="resource: replaceHeaderWithUIBLLabels.bshi" destLoc="CFDataModel" src="tmp_out/resources/scripts/replaceHeaderWithUIBLLabels.bshi" dest="scripts/" encoding="UTF-8"/>
-			<deployResource name="resource: BNPLineSplitter.xml" destLoc="CFDataModel" src="tmp_out/resources/xml/feeds/NIKKO/BNPLineSplitter.xml" dest="xml/feeds/NIKKO/" encoding="UTF-8"/>
 			<deployResource name="resource: LineByLineCSTM.xml" destLoc="CFDataModel" src="tmp_out/resources/xml/feeds/NIKKO/LineByLineCSTM.xml" dest="xml/feeds/NIKKO/" encoding="UTF-8"/>
 			<deployResource name="resource: LineByLineSkipHeaderCSTM.xml" destLoc="CFDataModel" src="tmp_out/resources/xml/feeds/NIKKO/LineByLineSkipHeaderCSTM.xml" dest="xml/feeds/NIKKO/" encoding="UTF-8"/>
+			<deployResource name="resource: replaceHeaderWithUIBLLabels.bshi" destLoc="CFDataModel" src="tmp_out/resources/scripts/replaceHeaderWithUIBLLabels.bshi" dest="scripts/" encoding="UTF-8"/>
 			<!--deployResource name="MDX: GC_BNP_ACCT" destLoc="CFDataModel" src="tmp_out/mapping/NIKKO/BNP/GC_BNP_ACCT.mdx" dest="mapping/NIKKO/BNP" encoding="utf-8"/-->
 			<!--END RESOURCE-->
 
@@ -95,17 +95,17 @@
 			<!--END MessageType-->
 
 			<!--START Workflow-->
-			<deployGSP name="workflow: WF_S3Test.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/AutoTest/WF_S3Test.gsp" type="workflow"/>
-			<deployGSP name="workflow: WF_POSTETL.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/ETL/WF_POSTETL.gsp" type="workflow"/>
-			<deployGSP name="workflow: WF_PREETL.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/ETL/WF_PREETL.gsp" type="workflow"/>
-			<deployGSP name="workflow: NTELNotification.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/NTELNotification.gsp" type="workflow"/>
-			<deployGSP name="workflow: WF_FileLoadingWrapper.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_FileLoadingWrapper.gsp" type="workflow"/>
-			<deployGSP name="workflow: WF_LoadCustomFiles.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_LoadCustomFiles.gsp" type="workflow"/>
-			<deployGSP name="workflow: WF_RunSFLPerFile.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_RunSFLPerFile.gsp" type="workflow"/>
-			<deployGSP name="workflow: WF_SendMailNotification.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_SendMailNotification.gsp" type="workflow"/>
 			<deployGSP name="workflow: NAM_ModifyFiles.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Nikko/NAM_ModifyFiles.gsp" type="workflow"/>
 			<deployGSP name="workflow: NAM_RefreshMView.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Nikko/NAM_RefreshMView.gsp" type="workflow"/>
 			<deployGSP name="workflow: NAM_StandardSubscriptionPublishingWrapper.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Nikko/NAM_StandardSubscriptionPublishingWrapper.gsp" type="workflow"/>
+			<deployGSP name="workflow: NTELNotification.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/NTELNotification.gsp" type="workflow"/>
+			<deployGSP name="workflow: WF_FileLoadingWrapper.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_FileLoadingWrapper.gsp" type="workflow"/>
+			<deployGSP name="workflow: WF_LoadCustomFiles.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_LoadCustomFiles.gsp" type="workflow"/>
+			<deployGSP name="workflow: WF_POSTETL.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/ETL/WF_POSTETL.gsp" type="workflow"/>
+			<deployGSP name="workflow: WF_PREETL.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/ETL/WF_PREETL.gsp" type="workflow"/>
+			<deployGSP name="workflow: WF_RunSFLPerFile.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_RunSFLPerFile.gsp" type="workflow"/>
+			<deployGSP name="workflow: WF_S3Test.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/AutoTest/WF_S3Test.gsp" type="workflow"/>
+			<deployGSP name="workflow: WF_SendMailNotification.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_SendMailNotification.gsp" type="workflow"/>
 			<!-- deployGSP name="Workflow: WF_S3Test" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/AutoTest/WF_S3Test.gsp" type="workflow"/ -->
 			<!--END Workflow-->
 

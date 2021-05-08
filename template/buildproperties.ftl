@@ -12,14 +12,12 @@ temp.dir=./custom_temp/
 
 ### Below properties are from config.yaml, they should had been built in package description already.
 ### update the config.yaml, if you wan to change anything below.
-gs.version=${yamlConfig["package"]["baseversion"]}
-build.version=${yamlConfig["package"]["version"]}
-build.package.name=${yamlConfig["package"]["name"]}
-build.package.type=${yamlConfig["package"]["type"]}
-build.engine.package.name=${yamlConfig["package"]["enginename"]}
-build.engine.package.jar=${yamlConfig["package"]["enginejar"]}
+gs.version=${yamlConfig["target"]["gc"]["baseversion"]}
+build.version=${yamlConfig["target"]["gc"]["buildversion"]}
+build.package.name=${yamlConfig["target"]["gc"]["name"]}
+build.package.type=${yamlConfig["target"]["gc"]["type"]}
 
 
 
 #build.package.stream=gc
-#====testing <mkdir dir="/${(today)!"$\{today}"}/>
+#====testing <mkdir dir="${(today)}!"$\{today}"}/>

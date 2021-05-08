@@ -29,6 +29,12 @@ public abstract class BasePkgFileGenerator {
 
 	static private final Logger logger = Logger.getLogger(BasePkgFileGenerator.class);
 	static protected GeneratorType typ = GeneratorType.local;
+	
+	private static final String pnTarget = "-Dtarget";
+	private static final String pnBuildVersion = "-Dbuildversion";
+	
+	protected String target = null;
+	protected String buildVersion = null;
 
 	// load configuration
 	static protected YamlConfig yamlConfig = new YamlConfig();
@@ -101,7 +107,7 @@ public abstract class BasePkgFileGenerator {
 		templateVars.put("yamlConfig", yamlConfig.getConfigMap());
 		
 		//parse yaml to see what needs to be generated
-		Map<String, Object> filesMap = yamlConfig.getConfigMap("generator.file");
+		Map<String, Object> filesMap = yamlConfig.getConfigMap("target."+this.target+".files");
 		logger.debug("files to be generated: " + filesMap);
 
 		// generate each file
@@ -145,7 +151,9 @@ public abstract class BasePkgFileGenerator {
 		switch(typ){
 		case local:
 			gen = new PkgFileLocalGenerator();
+			break;
 		case svn:
+			gen = new PkgFileSVNGenerator();
 			break;
 		case git:
 			break;
@@ -153,6 +161,26 @@ public abstract class BasePkgFileGenerator {
 			break;
 		}
 		
+		return gen;
+	}
+
+	/**
+	 * 
+	 * @param args
+	 * @return
+	 */
+	private static BasePkgFileGenerator getInstance(String[] args) {
+		BasePkgFileGenerator gen = BasePkgFileGenerator.getInstance();
+		logger.debug(args);
+		for (String arg : args) { 
+			if (arg.contains(pnTarget)) {
+				gen.setTarget(arg.split("=")[1]);
+				logger.debug(pnTarget + ": " + arg.split("=")[1]);
+			} else if (arg.contains(pnBuildVersion)) {
+				gen.setBuildVersion(arg.split("=")[1]);
+				logger.debug(pnBuildVersion + ": " + arg.split("=")[1]);
+			}
+		}
 		return gen;
 	}
 	
@@ -167,7 +195,9 @@ public abstract class BasePkgFileGenerator {
 		switch(type){
 		case local:
 			gen = new PkgFileLocalGenerator();
+			break;
 		case svn:
+			gen = new PkgFileSVNGenerator();
 			break;
 		case git:
 			break;
@@ -176,12 +206,29 @@ public abstract class BasePkgFileGenerator {
 		}
 		return gen;
 	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+	public void setBuildVersion(String buildVersion) {
+		this.buildVersion = buildVersion;
+	}
+	
+	
+	
 	
 	
 	public static void main(String[] args) {
 		
-		BasePkgFileGenerator gen = BasePkgFileGenerator.getInstance();
+		System.out.println(args[0]);
+		System.out.println(args[1]);
+		
+		BasePkgFileGenerator gen = BasePkgFileGenerator.getInstance(args);
 		gen.generate();
+		
+		
+		
 	}
+
 
 }

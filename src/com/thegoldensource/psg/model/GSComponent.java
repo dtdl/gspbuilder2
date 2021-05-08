@@ -47,17 +47,17 @@ public class GSComponent implements Comparator<GSComponent> {
 	 * @param cmptFullPath, the full path of the component 
 	 * @param rootFolder, basically the "configuration" folder
 	 */
-	public GSComponent(String cmptFullPath, String rootFolder) {
+	public GSComponent(String cmptFullPath, String rootFolder, boolean active) {
 		logger.debug("new GSComponent with: " + cmptFullPath );
 		
 		this.cmptFullPath = cmptFullPath;
-		this.active = true;
+		this.active = active;
 		this.cmptPath = cmptFullPath.replace(rootFolder, "");
 		
 		//TODO handle "\"
 		this.cmptName = cmptFullPath.substring(cmptFullPath.lastIndexOf("/")+1);
-		logger.debug("cmptPath:" + this.cmptPath);
-		logger.debug("cmptName:" + this.cmptName);
+//		logger.debug("cmptPath:" + this.cmptPath);
+//		logger.debug("cmptName:" + this.cmptName);
 		
 		// determine component type based on its folder
 		for (String key: GSComponent.cmptTypMap.keySet()) {
@@ -71,6 +71,33 @@ public class GSComponent implements Comparator<GSComponent> {
 		}
 	}
 	
+//	/**
+//	 * Component expect a linux style path, meaning "/", instead of "\"
+//	 * @param cmptFullPath, the full path of the component 
+//	 * @param rootFolder, basically the "configuration" folder
+//	 */
+//	public GSComponent(String cmptPath, String cmptName, boolean active) {
+//		logger.debug("new GSComponent with: " + cmptPath );
+//		
+//		this.cmptFullPath = cmptPath;
+//		this.active = active;
+//		this.cmptPath = cmptPath;
+//		this.cmptName = cmptName;
+//		
+//		logger.debug("cmptPath:" + this.cmptPath);
+//		logger.debug("cmptName:" + this.cmptName);
+//		
+//		// determine component type based on its folder
+//		for (String key: GSComponent.cmptTypMap.keySet()) {
+//			if (cmptFullPath.contains(key)) {
+//				this.cmptTyp = GSComponent.cmptTypMap.get(key).toString();
+//				this.cmptOrchPath = this.cmptPath.replace(this.cmptName, "").replace(key, "");
+//				
+//				logger.info("new GSComponent:" + this.cmptTyp + ":" + this.cmptPath);
+//				break;
+//			}
+//		}
+//	}
 	
 	public String getCmptPath() {
 		return cmptPath;
@@ -133,10 +160,10 @@ public class GSComponent implements Comparator<GSComponent> {
 	
 	public static void main(String[] args) {
 		
-		GSComponent c = new GSComponent("D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration\\vendordefinitions\\NIKKO_CSV_LINEBYLINE.gsp".replace("\\", "/"), "D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration".replace("\\", "/"));
+		GSComponent c = new GSComponent("D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration\\vendordefinitions\\NIKKO_CSV_LINEBYLINE.gsp".replace("\\", "/"), "D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration".replace("\\", "/"), true);
 		System.out.println(c);
 
-		GSComponent c1 = new GSComponent("D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration\\resources\\mapping\\NIKKO\\BNP\\GC_BNP_ACCT.mdx".replace("\\", "/"), "D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration".replace("\\", "/"));
+		GSComponent c1 = new GSComponent("D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration\\resources\\mapping\\NIKKO\\BNP\\GC_BNP_ACCT.mdx".replace("\\", "/"), "D:\\Projects\\Nikko\\E41-svn\\trunk\\customgc\\configuration".replace("\\", "/"), true);
 		System.out.println(c1);
 	}
 

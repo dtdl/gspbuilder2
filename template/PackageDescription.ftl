@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<PackageDescription minInstallCenterVersion="${yamlConfig["package"]["baseversion"]}" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PackageDescription.xsd">
-	<Package name="${yamlConfig["package"]["name"]}" type="${yamlConfig["package"]["type"]}" version="${yamlConfig["package"]["version"]}">
-		<Component>${yamlConfig["package"]["name"]}</Component>
-		<Description>${yamlConfig["package"]["name"]}</Description>
+<PackageDescription minInstallCenterVersion="${yamlConfig["target"]["gc"]["baseversion"]}" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PackageDescription.xsd">
+		<Package name="${yamlConfig["target"]["gc"]["name"]}" type="${yamlConfig["target"]["gc"]["type"]}" version="${yamlConfig["target"]["gc"]["buildversion"]}">
+		<Component>${yamlConfig["target"]["gc"]["name"]}</Component>
+		<Description>${yamlConfig["target"]["gc"]["name"]}</Description>
 		<Content>
-			<File path="${yamlConfig["package"]["name"]}.tar.gz" type="Package"/>
+			<File path="${yamlConfig["target"]["gc"]["name"]}.tar.gz" type="Package"/>
 			<File path="ReleaseNotes.docx" type="Package"/>
 		</Content>
 	</Package>
 	<Deployment>
 		<Prerequisites>
 			<Product id="datamodel" name="Datamodel GSDM" type="GOLDENSOURCE">
-				<Version min="${yamlConfig["package"]["baseversion"]}"/>
+				<Version min="${yamlConfig["target"]["gc"]["baseversion"]}"/>
 			</Product>
 			<Product id="dmgso" name="Datamodel GoldenSource Objects" type="GOLDENSOURCE">
-				<Version min="${yamlConfig["package"]["baseversion"]}"/>
+				<Version min="${yamlConfig["target"]["gc"]["baseversion"]}"/>
 			</Product>
 			<Product id="stgso" name="Starterset GoldenSource Objects" type="GOLDENSOURCE">
-				<Version min="${yamlConfig["package"]["baseversion"]}"/>
+				<Version min="${yamlConfig["target"]["gc"]["baseversion"]}"/>
 			</Product>
 			<Product id="configuration" name="Datamodel Configuration" type="GOLDENSOURCE">
-				<Version min="${yamlConfig["package"]["baseversion"]}"/>
+				<Version min="${yamlConfig["target"]["gc"]["baseversion"]}"/>
 			</Product>
 			<Product id="workflow" name="Datamodel Workflow" type="GOLDENSOURCE">
-				<Version min="${yamlConfig["package"]["baseversion"]}"/>
+				<Version min="${yamlConfig["target"]["gc"]["baseversion"]}"/>
 			</Product>
 		</Prerequisites>
 		<Locations>
@@ -53,12 +53,20 @@
 		</Locations>
 		<Tasks>
 			<!-- Untar Installation Package -->
-			<tgz description="Untar package archive" dest="tmp_out/" name="Untar Package" src="${yamlConfig["package"]["name"]}.tar.gz" srcLoc="PackageZip"/>
+			<tgz description="Untar package archive" dest="tmp_out/" name="Untar Package" src="${yamlConfig["target"]["gc"]["name"]}.tar.gz" srcLoc="PackageZip"/>
 			
 			<!--START SaveDTD-->
+<#list componentList as component><#if component.cmptTyp == "saveDtd">
+			<<#if !component.active>!--</#if>savedtd name="${component.cmptTyp}: ${component.cmptName}" destLoc="CFDataModel" src="tmp_out${component.cmptPath}" columnName="MSG_SET_BLOB" columnkeyname="XML_MSG_SET_ID" columnkeyvalue="1" dtdFile="tmp_out${component.cmptPath}msgtype.dtd" lastChgUsrId="CUSTOM" tableName="FT_T_XMGS"/<#if !component.active>--</#if>>
+</#if></#list>
+			<!--<savedtd name="Save DTD: StreetRefMsgSetGC" destLoc="CFDataModel" src="tmp_out/reference/rulexml/StreetRefMsgSetGC.xml" columnName="MSG_SET_BLOB" columnkeyname="XML_MSG_SET_ID" columnkeyvalue="1" dtdFile="tmp_out/reference/rulexml/msgtype.dtd" lastChgUsrId="RMBP:CSTM" tableName="FT_T_XMGS"/>-->
 			<!--END SaveDTD-->
 
 			<!--START SaveLOB-->
+<#list componentList as component><#if component.cmptTyp == "saveLob">
+			<<#if !component.active>!--</#if>savelob name="${component.cmptTyp}: ${component.cmptName}" destLoc="CFDataModel" src="tmp_out${component.cmptPath}" columnName="XML_CONFIG_CLOB" columnkeyname="XML_CONFIG_MNEM" columnkeyvalue="VSH" dtdFile="tmp_out${component.cmptPath}VSH.dtd" lastChgUsrId="CUSTOM" tableName="FT_T_XMGS"/<#if !component.active>--</#if>>
+</#if></#list>
+			<!--<savelob name="Save LOB: IDUniquenessCheckMatchKeySet" destLoc="CFDataModel" src="tmp_out/reference/streetreffiles/IDUniquenessCheckMatchKeySet.xml" columnName="XML_CONFIG_CLOB" columnkeyname="XML_CONFIG_MNEM" columnkeyvalue="IDUniquenessCheckMatchKeySet" dtdFile="tmp_out/reference/streetreffiles/IDUniquenessCheckMatchKeySet.dtd" lastChgUsrId="RMBP:CSTM" tableName="FT_T_XCFG"/>-->
 			<!--END SaveLOB-->
 
 			<!--START RESOURCE-->
@@ -102,17 +110,20 @@
 
 			<!--START DDL-->
 <#list componentList as component><#if component.cmptTyp == "ddl">
-			<<#if !component.active>!--</#if>sql name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["package"]["version"]}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
+			<<#if !component.active>!--</#if>sql name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["target"]["gc"]["buildversion"]}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
 </#if></#list>
 			<!--sql name="DML: 0010-ENTR" src="tmp_out/sql/DML/0010-ENTR.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/-->
 			<!--END DDL-->
 
 			<!--START PLSQL-->
+<#list componentList as component><#if component.cmptTyp == "plsql">
+			<<#if !component.active>!--</#if>sql name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["target"]["gc"]["buildversion"]}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
+</#if></#list>
 			<!--END PLSQL-->
 
 			<!--START DML-->
 <#list componentList as component><#if component.cmptTyp == "dml">
-			<<#if !component.active>!--</#if>sql name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["package"]["version"]}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
+			<<#if !component.active>!--</#if>sql name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["target"]["gc"]["buildversion"]}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
 </#if></#list>
 			<!--END DML-->
 

@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<PackageDescription minInstallCenterVersion="${yamlConfig["package"]["baseversion"]}" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PackageDescription.xsd">
-	<Package name="${yamlConfig["package"]["name"]}" type="${yamlConfig["package"]["type"]}" version="${yamlConfig["package"]["version"]}">
-		<Component>${yamlConfig["package"]["name"]}</Component>
-		<Description>${yamlConfig["package"]["name"]}</Description>
+<PackageDescription minInstallCenterVersion="${yamlConfig["target"]["dwh"]["baseversion"]}" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PackageDescription.xsd">
+	<Package name="${yamlConfig["target"]["dwh"]["name"]}" type="${yamlConfig["target"]["dwh"]["type"]}" version="${yamlConfig["target"]["dwh"]["buildversion"]}">
+		<Component>${yamlConfig["target"]["dwh"]["name"]}</Component>
+		<Description>${yamlConfig["target"]["dwh"]["name"]}</Description>
 		<Content>
-			<File path="${yamlConfig["package"]["name"]}.tar.gz" type="Package"/>
+			<File path="${yamlConfig["target"]["dwh"]["name"]}.tar.gz" type="Package"/>
 			<File path="ReleaseNotes.docx" type="Package"/>
 		</Content>
 	</Package>
 	<Deployment>
 		<Prerequisites>
 			<Product id="datamodel" name="Datamodel GSDM" type="GOLDENSOURCE">
-				<Version min="${yamlConfig["package"]["baseversion"]}"/>
+				<Version min="${yamlConfig["target"]["dwh"]["baseversion"]}"/>
 			</Product>
 			<Product id="dmgso" name="Datamodel GoldenSource Objects" type="GOLDENSOURCE">
-				<Version min="${yamlConfig["package"]["baseversion"]}"/>
+				<Version min="${yamlConfig["target"]["dwh"]["baseversion"]}"/>
 			</Product>
 			<Product id="stgso" name="Starterset GoldenSource Objects" type="GOLDENSOURCE">
-				<Version min="${yamlConfig["package"]["baseversion"]}"/>
+				<Version min="${yamlConfig["target"]["dwh"]["baseversion"]}"/>
 			</Product>
 			<Product id="configuration" name="Datamodel Configuration" type="GOLDENSOURCE">
-				<Version min="${yamlConfig["package"]["baseversion"]}"/>
+				<Version min="${yamlConfig["target"]["dwh"]["baseversion"]}"/>
 			</Product>
 			<Product id="workflow" name="Datamodel Workflow" type="GOLDENSOURCE">
-				<Version min="${yamlConfig["package"]["baseversion"]}"/>
+				<Version min="${yamlConfig["target"]["dwh"]["baseversion"]}"/>
 			</Product>
 		</Prerequisites>
 		<Locations>
@@ -53,7 +53,7 @@
 		</Locations>
 		<Tasks>
 			<!-- Untar Installation Package -->
-			<tgz description="Untar package archive" dest="tmp_out/" name="Untar Package" src="${yamlConfig["package"]["name"]}.tar.gz" srcLoc="PackageZip"/>
+			<tgz description="Untar package archive" dest="tmp_out/" name="Untar Package" src="${yamlConfig["target"]["dwh"]["name"]}.tar.gz" srcLoc="PackageZip"/>
 			
 			<!--START SaveDTD-->
 			<!--END SaveDTD-->
@@ -102,7 +102,7 @@
 
 			<!--START DDL-->
 <#list componentList as component><#if component.cmptTyp == "ddl">
-			<<#if !component.active>!--</#if>sql name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["package"]["version"]}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
+			<<#if !component.active>!--</#if>sql name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["target"]["dwh"]["version"]}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
 </#if></#list>
 			<!--sql name="DML: 0010-ENTR" src="tmp_out/sql/DML/0010-ENTR.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/-->
 			<!--END DDL-->
@@ -112,7 +112,7 @@
 
 			<!--START DML-->
 <#list componentList as component><#if component.cmptTyp == "dml">
-			<<#if !component.active>!--</#if>sql name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["package"]["version"]}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
+			<<#if !component.active>!--</#if>sql name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["target"]["dwh"]["buildversion"]}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
 </#if></#list>
 			<!--END DML-->
 

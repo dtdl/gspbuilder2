@@ -251,9 +251,9 @@ public class Utils
     }
 
 	public static void main(String[] args) {
-//		String pass = "Gsource@789       ";
-//		System.out.println(pass.length());
-//		System.out.println("Gsource@789: " + Utils.EncryptPassword(pass));
+		String pass = "Gsource@456";
+		System.out.println(pass.length());
+		System.out.println("Gsource@456: " + Utils.EncryptPassword(pass));
 //		
 //		String dpass = Utils.DecryptPassword(Utils.EncryptPassword(pass));
 //		System.out.println(dpass.length());

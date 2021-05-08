@@ -21,9 +21,13 @@ public class GSComponent implements Comparator<GSComponent> {
 
 	private String cmptTyp = "UNKNOWN";
 	private boolean active = true;
+	private String cmptShortName;
 	private String cmptName;
 	private String cmptFullPath;
 	private String cmptPath;
+	private String cmptFolder;
+
+
 	private String cmptOrchPath;
 	
 	static {
@@ -56,7 +60,9 @@ public class GSComponent implements Comparator<GSComponent> {
 		
 		//TODO handle "\"
 		this.cmptName = cmptFullPath.substring(cmptFullPath.lastIndexOf("/")+1);
-//		logger.debug("cmptPath:" + this.cmptPath);
+		this.cmptShortName = cmptName.substring(0, cmptName.lastIndexOf("."));
+		this.cmptFolder = this.cmptPath.replace(this.cmptName, "");
+		//		logger.debug("cmptPath:" + this.cmptPath);
 //		logger.debug("cmptName:" + this.cmptName);
 		
 		// determine component type based on its folder
@@ -71,88 +77,66 @@ public class GSComponent implements Comparator<GSComponent> {
 		}
 	}
 	
-//	/**
-//	 * Component expect a linux style path, meaning "/", instead of "\"
-//	 * @param cmptFullPath, the full path of the component 
-//	 * @param rootFolder, basically the "configuration" folder
-//	 */
-//	public GSComponent(String cmptPath, String cmptName, boolean active) {
-//		logger.debug("new GSComponent with: " + cmptPath );
-//		
-//		this.cmptFullPath = cmptPath;
-//		this.active = active;
-//		this.cmptPath = cmptPath;
-//		this.cmptName = cmptName;
-//		
-//		logger.debug("cmptPath:" + this.cmptPath);
-//		logger.debug("cmptName:" + this.cmptName);
-//		
-//		// determine component type based on its folder
-//		for (String key: GSComponent.cmptTypMap.keySet()) {
-//			if (cmptFullPath.contains(key)) {
-//				this.cmptTyp = GSComponent.cmptTypMap.get(key).toString();
-//				this.cmptOrchPath = this.cmptPath.replace(this.cmptName, "").replace(key, "");
-//				
-//				logger.info("new GSComponent:" + this.cmptTyp + ":" + this.cmptPath);
-//				break;
-//			}
-//		}
-//	}
-	
+
 	public String getCmptPath() {
 		return cmptPath;
 	}
-	
 	public void setCmptPath(String cmptPath) {
 		this.cmptPath = cmptPath;
 	}
-	
 	public String getCmptTyp() {
 		return cmptTyp;
 	}
-
 	public void setCmptTyp(String cmptTyp) {
 		this.cmptTyp = cmptTyp;
 	}
-
 	public String getCmptName() {
 		return cmptName;
 	}
-
 	public void setCmptName(String cmptName) {
 		this.cmptName = cmptName;
 	}
-
 	public String getCmptFullPath() {
 		return cmptFullPath;
 	}
-
 	public void setCmptFullPath(String cmptFullPath) {
 		this.cmptFullPath = cmptFullPath;
 	}
-
 	public String getCmptOrchPath() {
 		return cmptOrchPath;
 	}
-
 	public void setCmptOrchPath(String cmptOrchPath) {
 		this.cmptOrchPath = cmptOrchPath;
 	}
-	
 	public boolean isActive() {
 		return active;
 	}
-
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	public String getCmptFolder() {
+		return cmptFolder;
+	}
+	public void setCmptFolder(String cmptFolder) {
+		this.cmptFolder = cmptFolder;
+	}
+	public String getCmptShortName() {
+		return cmptShortName;
+	}
+	public void setCmptShortName(String cmptShortName) {
+		this.cmptShortName = cmptShortName;
 	}
 	
 	/**
 	 * @return String
 	 */
 	public String toString() {
-		String str = "{" + this.cmptTyp + ", isActive=" + this.active + 
-				", cmptPath=" + this.cmptPath + ", cmptName=" + this.cmptName +
+		String str = "{" + this.cmptTyp + ", isActive=" + this.active +
+				", cmptName=" + this.cmptName +
+				", cmptShortName=" + this.cmptShortName +
+				", cmptPath=" + this.cmptPath + 
+				", cmptFullPath=" + this.cmptFullPath +
+				", cmptFolder=" + this.cmptFolder + 
 				", cmptOrchPath=" + this.cmptOrchPath + "}";
 		return str;
 	}

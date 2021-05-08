@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PackageDescription minInstallCenterVersion="${yamlConfig["target"]["gc"]["baseversion"]}" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PackageDescription.xsd">
-		<Package name="${yamlConfig["target"]["gc"]["name"]}" type="${yamlConfig["target"]["gc"]["type"]}" version="${yamlConfig["target"]["gc"]["buildversion"]}">
+		<Package name="${yamlConfig["target"]["gc"]["name"]}" type="${yamlConfig["target"]["gc"]["type"]}" version="${yamlConfig["target"]["gc"]["baseversion"]}.${yamlConfig["target"]["gc"]["buildversion"]}">
 		<Component>${yamlConfig["target"]["gc"]["name"]}</Component>
 		<Description>${yamlConfig["target"]["gc"]["name"]}</Description>
 		<Content>
@@ -103,16 +103,21 @@
 			<!--END Workflow-->
 
 			<!--START Event-->
+<#list componentList as component><#if component.cmptTyp == "event">
+			<<#if !component.active>!--</#if>deployGSP name="${component.cmptTyp}: ${component.cmptName}" destLoc="WFDataModel" src="tmp_out${component.cmptPath}" type="workflow"/<#if !component.active>--</#if>>
+</#if></#list>
 			<!--END Event-->
 
 			<!--START Task-->
+<#list componentList as component><#if component.cmptTyp == "task">
+			<<#if !component.active>!--</#if>deployGSP name="${component.cmptTyp}: ${component.cmptName}" destLoc="WFDataModel" src="tmp_out${component.cmptPath}" type="workflow"/<#if !component.active>--</#if>>
+</#if></#list>
 			<!--END Task-->
 
 			<!--START DDL-->
 <#list componentList as component><#if component.cmptTyp == "ddl">
 			<<#if !component.active>!--</#if>sql name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["target"]["gc"]["buildversion"]}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
 </#if></#list>
-			<!--sql name="DML: 0010-ENTR" src="tmp_out/sql/DML/0010-ENTR.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/-->
 			<!--END DDL-->
 
 			<!--START PLSQL-->
@@ -131,13 +136,15 @@
 <#list componentList as component><#if component.cmptTyp == "gso">
 			<<#if !component.active>!--</#if>deployGSE name="${component.cmptTyp}: ${component.cmptName}" destLoc="GSDMDataModel" src="tmp_out${component.cmptPath}" encoding="utf-8"/<#if !component.active>--</#if>>
 </#if></#list>
-			<!--deployGSE name="GSO: ApplicationUser" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/ApplicationUser.gso" encoding="windows-1252"/-->
 			<!--END GSO-->
 
 			<!--START GOC-->
 			<!--END GOC-->
 
 			<!--START PublishingProfile-->
+<#list componentList as component><#if component.cmptTyp == "publishingProfiles">
+			<<#if !component.active>!--</#if>deployGSP name="${component.cmptTyp}: ${component.cmptName}" destLoc="WFDataModel" src="tmp_out${component.cmptPath}" type="workflow"/<#if !component.active>--</#if>>
+</#if></#list>
 			<!--END PublishingProfile-->
 
 			</Tasks>

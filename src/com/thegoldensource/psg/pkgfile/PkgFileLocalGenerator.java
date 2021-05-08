@@ -51,11 +51,11 @@ public class PkgFileLocalGenerator extends BasePkgFileGenerator {
         	// change into linux folder format
         	cmptList.add(new GSComponent(f.replace("\\", "/"), root.replace("\\", "/"), true));
         }
-        for (GSComponent c: cmptList) {
-        	logger.debug("GSComponent:" + c);
-        }
+//        for (GSComponent c: cmptList) {
+//        	logger.debug("GSComponent:" + c);
+//        }
         
-		//TODO sort component by name
+		// sort component by name
         cmptList.sort(new GSComponent());
         
         

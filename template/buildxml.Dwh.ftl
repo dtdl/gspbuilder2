@@ -128,7 +128,7 @@
 </#if></#list>
 		<!--END PublishingProfile-->
 
-		<tar destfile="${yamlConfig["ant"]["dir"]["temp"]}/${yamlConfig["target"]["gc"]["name"]}.tar.gz" compression="gzip">
+		<tar destfile="${yamlConfig["ant"]["dir"]["temp"]}/${yamlConfig["target"]["dwh"]["name"]}.tar.gz" compression="gzip">
 			<tarfileset dir="${yamlConfig["ant"]["dir"]["temp"]}">
 				<include name="**"/>
 			</tarfileset>
@@ -139,15 +139,15 @@
 		<copy file="./ReleaseNotes.docx" tofile="${yamlConfig["ant"]["dir"]["temp"]}/ReleaseNotes.docx" failonerror="false"/>
 
 		<!-- zip the files together with the release notes and the package description -->
-		<zip destfile="${yamlConfig["ant"]["dir"]["temp"]}/${yamlConfig["target"]["gc"]["name"]}_${yamlConfig["target"]["gc"]["baseversion"]}.${buildVersion}.zip">
+		<zip destfile="${yamlConfig["ant"]["dir"]["temp"]}/${yamlConfig["target"]["dwh"]["name"]}_${yamlConfig["target"]["dwh"]["baseversion"]}.${buildVersion}.zip">
 			<fileset dir="${yamlConfig["ant"]["dir"]["temp"]}/">
-				<include name="${yamlConfig["target"]["gc"]["name"]}.tar.gz"/>
+				<include name="${yamlConfig["target"]["dwh"]["name"]}.tar.gz"/>
 				<include name="PackageDescription.xml"/>
 				<include name="ReleaseNotes.docx"/>
 			</fileset>
 		</zip>
 
-		<move file="${yamlConfig["ant"]["dir"]["temp"]}/${yamlConfig["target"]["gc"]["name"]}_${yamlConfig["target"]["gc"]["baseversion"]}.${buildVersion}.zip" todir="${yamlConfig["ant"]["dir"]["package"]}/${r"${today}"}"/>
+		<move file="${yamlConfig["ant"]["dir"]["temp"]}/${yamlConfig["target"]["dwh"]["name"]}_${yamlConfig["target"]["dwh"]["baseversion"]}.${buildVersion}.zip" todir="${yamlConfig["ant"]["dir"]["package"]}/${r"${today}"}"/>
 	</target>
 
 	<target name="removetempdir">

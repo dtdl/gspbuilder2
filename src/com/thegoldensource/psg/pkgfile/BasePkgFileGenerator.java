@@ -55,6 +55,13 @@ public abstract class BasePkgFileGenerator {
 		// get component list (defer to children generator)
 		List<GSComponent> cmpList = this.getComponentList();
 		
+		// sort component by name
+		cmpList.sort(new GSComponent());
+		// debug
+		for (GSComponent c: cmpList) {
+			logger.debug("GSComponent:" + c);
+		}
+		
 		// call templates to actually create package configuration files
 		this.generateFiles(cmpList);
 		
@@ -105,6 +112,7 @@ public abstract class BasePkgFileGenerator {
 		Map<String, Object> templateVars = new HashMap<String, Object>();
 		templateVars.put("componentList", cmpList);
 		templateVars.put("yamlConfig", yamlConfig.getConfigMap());
+		templateVars.put("buildVersion", this.buildVersion);
 		
 		//parse yaml to see what needs to be generated
 		Map<String, Object> filesMap = yamlConfig.getConfigMap("target."+this.target+".files");

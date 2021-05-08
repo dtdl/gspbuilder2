@@ -1,38 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<PackageDescription minInstallCenterVersion="8.7.2.x" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PackageDescription.xsd">
-	<Package name="NIKKO_CustomGC" type="full" version="8.7.2.01">
-		<Component>NIKKO_CustomGC</Component>
-		<Description>NIKKO_CustomGC</Description>
+<PackageDescription minInstallCenterVersion="8.7.2" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PackageDescription.xsd">
+		<Package name="NIKKO_CustomDWH" type="full" version="8.7.2.009">
+		<Component>NIKKO_CustomDWH</Component>
+		<Description>NIKKO_CustomDWH</Description>
 		<Content>
-			<File path="NIKKO_CustomGC.tar.gz" type="Package"/>
+			<File path="NIKKO_CustomDWH.tar.gz" type="Package"/>
 			<File path="ReleaseNotes.docx" type="Package"/>
 		</Content>
 	</Package>
 	<Deployment>
 		<Prerequisites>
-			<Product id="datamodel" name="Datamodel GSDM" type="GOLDENSOURCE">
-				<Version min="8.7.2.x"/>
-			</Product>
-			<Product id="dmgso" name="Datamodel GoldenSource Objects" type="GOLDENSOURCE">
-				<Version min="8.7.2.x"/>
-			</Product>
-			<Product id="stgso" name="Starterset GoldenSource Objects" type="GOLDENSOURCE">
-				<Version min="8.7.2.x"/>
-			</Product>
-			<Product id="configuration" name="Datamodel Configuration" type="GOLDENSOURCE">
-				<Version min="8.7.2.x"/>
-			</Product>
-			<Product id="workflow" name="Datamodel Workflow" type="GOLDENSOURCE">
-				<Version min="8.7.2.x"/>
-			</Product>
 		</Prerequisites>
 		<Locations>
 			<Location id="GSDMDataModel" multiple="true" type="Database">
 				<Description>The destination where the DataModel GoldenSource Objects was installed.</Description>
 				<Prerequisites>
-					<Prerequisite id="datamodel" required="true"/>
-					<Prerequisite id="dmgso" required="true"/>
-					<Prerequisite id="stgso" required="true"/>
 				</Prerequisites>
 			</Location>
 			<Location id="VDDBDataModel" type="Database" multiple="true">
@@ -41,39 +23,44 @@
 			<Location id="CFDataModel" multiple="true" type="Database">
 				<Description>The destination where the Configuration Datamodel was installed.</Description>
 				<Prerequisites>
-					<Prerequisite id="configuration"/>
 				</Prerequisites>
 			</Location>
 			<Location id="WFDataModel" multiple="true" type="Database">
 				<Description>The destination where the Workflow Datamodel was installed.</Description>
 				<Prerequisites>
-					<Prerequisite id="workflow"/>
 				</Prerequisites>
 			</Location>
 		</Locations>
 		<Tasks>
 			<!-- Untar Installation Package -->
-			<tgz description="Untar package archive" dest="tmp_out/" name="Untar Package" src="NIKKO_CustomGC.tar.gz" srcLoc="PackageZip"/>
+			<tgz description="Untar package archive" dest="tmp_out/" name="Untar Package" src="NIKKO_CustomDWH.tar.gz" srcLoc="PackageZip"/>
 			
 			<!--START SaveDTD-->
+			<!--savedtd name="saveDtd: StreetRefMsgSet.xml" destLoc="CFDataModel" src="tmp_out/reference/rulexml/StreetRefMsgSet.xml" columnName="MSG_SET_BLOB" columnkeyname="XML_MSG_SET_ID" columnkeyvalue="1" dtdFile="tmp_out/reference/rulexml/msgtype.dtd" lastChgUsrId="CUSTOM" tableName="FT_T_XMGS"/-->
 			<!--END SaveDTD-->
 
 			<!--START SaveLOB-->
+			<!--<savelob name="Save LOB: IDUniquenessCheckMatchKeySet" destLoc="CFDataModel" src="tmp_out/reference/streetreffiles/IDUniquenessCheckMatchKeySet.xml" columnName="XML_CONFIG_CLOB" columnkeyname="XML_CONFIG_MNEM" columnkeyvalue="IDUniquenessCheckMatchKeySet" dtdFile="tmp_out/reference/streetreffiles/IDUniquenessCheckMatchKeySet.dtd" lastChgUsrId="RMBP:CSTM" tableName="FT_T_XCFG"/>-->
 			<!--END SaveLOB-->
 
 			<!--START RESOURCE-->
-			<deployResource name="resource: BNPLineSplitter.xml" destLoc="CFDataModel" src="tmp_out/resources/xml/feeds/NIKKO/BNPLineSplitter.xml" dest="xml/feeds/NIKKO/" encoding="UTF-8"/>
-			<deployResource name="resource: BNP_to_DMP.ttl" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/BNP_to_DMP.ttl" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
-			<deployResource name="resource: GC_BNP_ACCT.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/GC_BNP_ACCT.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
-			<deployResource name="resource: GC_BNP_ISSU_NZFA_Valuation.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/GC_BNP_ISSU_NZFA_Valuation.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
-			<deployResource name="resource: GC_BNP_ISSU_NZ_MMCPosition.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/GC_BNP_ISSU_NZ_MMCPosition.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
-			<deployResource name="resource: GC_BNP_ISSU_SGFA_INVENTORY.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/GC_BNP_ISSU_SGFA_INVENTORY.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
-			<deployResource name="resource: GC_BNP_ISSU_SGFA_NAV.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/GC_BNP_ISSU_SGFA_NAV.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
-			<deployResource name="resource: GC_BNP_ISSU_SODPME.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/GC_BNP_ISSU_SODPME.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
-			<deployResource name="resource: LineByLineCSTM.xml" destLoc="CFDataModel" src="tmp_out/resources/xml/feeds/NIKKO/LineByLineCSTM.xml" dest="xml/feeds/NIKKO/" encoding="UTF-8"/>
-			<deployResource name="resource: LineByLineSkipHeaderCSTM.xml" destLoc="CFDataModel" src="tmp_out/resources/xml/feeds/NIKKO/LineByLineSkipHeaderCSTM.xml" dest="xml/feeds/NIKKO/" encoding="UTF-8"/>
-			<deployResource name="resource: replaceHeaderWithUIBLLabels.bshi" destLoc="CFDataModel" src="tmp_out/resources/scripts/replaceHeaderWithUIBLLabels.bshi" dest="scripts/" encoding="UTF-8"/>
-			<!--deployResource name="MDX: GC_BNP_ACCT" destLoc="CFDataModel" src="tmp_out/mapping/NIKKO/BNP/GC_BNP_ACCT.mdx" dest="mapping/NIKKO/BNP" encoding="utf-8"/-->
+			<!--deployResource name="resource: BNPLineSplitter.xml" destLoc="CFDataModel" src="tmp_out/resources/xml/feeds/NIKKO/BNPLineSplitter.xml" dest="xml/feeds/NIKKO/" encoding="UTF-8"/-->
+			<deployResource name="resource: DWH_BNP_WACS.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/DWH_BNP_WACS.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
+			<deployResource name="resource: DWH_BNP_WPOS_INVENTORY.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/DWH_BNP_WPOS_INVENTORY.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/>
+			<!--deployResource name="resource: DWH_BNP_WPOS_NZFA.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/DWH_BNP_WPOS_NZFA.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/-->
+			<!--deployResource name="resource: DWH_BNP_WPOS_NZMMC.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/DWH_BNP_WPOS_NZMMC.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/-->
+			<!--deployResource name="resource: DWH_BNP_WPOS_SOD.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/DWH_BNP_WPOS_SOD.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/-->
+			<!--deployResource name="resource: DWH_BNP_WTRN_SGFA.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/DWH_BNP_WTRN_SGFA.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/-->
+			<!--deployResource name="resource: DWH_BNP_WTRN_SOD.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/BNP/DWH_BNP_WTRN_SOD.mdx" dest="mapping/NIKKO/BNP/" encoding="UTF-8"/-->
+			<!--deployResource name="resource: DWH_SMT_WACS_NAV.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/SMT/DWH_SMT_WACS_NAV.mdx" dest="mapping/NIKKO/SMT/" encoding="UTF-8"/-->
+			<!--deployResource name="resource: DWH_SMT_WPOS_HOLDINGS.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/SMT/DWH_SMT_WPOS_HOLDINGS.mdx" dest="mapping/NIKKO/SMT/" encoding="UTF-8"/-->
+			<!--deployResource name="resource: DWH_SMT_WTRN_TRANSACTIONS.mdx" destLoc="CFDataModel" src="tmp_out/resources/mapping/NIKKO/SMT/DWH_SMT_WTRN_TRANSACTIONS.mdx" dest="mapping/NIKKO/SMT/" encoding="UTF-8"/-->
+			<!--deployResource name="resource: FilesToLoad.xml" destLoc="CFDataModel" src="tmp_out/resources/Custom/S3Workflow/FilesToLoad.xml" dest="Custom/S3Workflow/" encoding="UTF-8"/-->
+			<!--deployResource name="resource: LineByLineCSTM.xml" destLoc="CFDataModel" src="tmp_out/resources/xml/feeds/NIKKO/LineByLineCSTM.xml" dest="xml/feeds/NIKKO/" encoding="UTF-8"/-->
+			<!--deployResource name="resource: LineByLineSkipHeaderCSTM.xml" destLoc="CFDataModel" src="tmp_out/resources/xml/feeds/NIKKO/LineByLineSkipHeaderCSTM.xml" dest="xml/feeds/NIKKO/" encoding="UTF-8"/-->
+			<!--deployResource name="resource: publishingConfiguration.xml" destLoc="CFDataModel" src="tmp_out/resources/Custom/Publishing/publishingConfiguration.xml" dest="Custom/Publishing/" encoding="UTF-8"/-->
+			<!--deployResource name="resource: replaceFullyQualifiedNameHeaderWithLabels.bshi" destLoc="CFDataModel" src="tmp_out/resources/scripts/replaceFullyQualifiedNameHeaderWithLabels.bshi" dest="scripts/" encoding="UTF-8"/-->
+			<!--deployResource name="resource: replaceHeaderWithUIBLLabels.bshi" destLoc="CFDataModel" src="tmp_out/resources/scripts/replaceHeaderWithUIBLLabels.bshi" dest="scripts/" encoding="UTF-8"/-->
 			<!--END RESOURCE-->
 
 			<!--START XMLFeed-->
@@ -83,9 +70,9 @@
 			<!--END XSLT-->
 
 			<!--START VendorDefinition-->
-			<deployGSP name="vendordifinition: NIKKO_CSV.gsp" destLoc="CFDataModel" src="tmp_out/vendordefinitions/NIKKO_CSV.gsp"/>
-			<deployGSP name="vendordifinition: NIKKO_CSV_SKIPHEADER.gsp" destLoc="CFDataModel" src="tmp_out/vendordefinitions/NIKKO_CSV_SKIPHEADER.gsp"/>
-			<!--deployGSP name="VendorDefinition: NIKKO_CSV_LINEBYLINE" destLoc="CFDataModel" src="tmp_out/vendordefinitions/NIKKO_CSV_LINEBYLINE.gsp"/-->
+			<!--deployGSP name="vendordifinition: NIKKO_BNP_SUPPORTHEADER.gsp" destLoc="CFDataModel" src="tmp_out/vendordefinitions/NIKKO_BNP_SUPPORTHEADER.gsp"/-->
+			<!--deployGSP name="vendordifinition: NIKKO_CSV_NOHEADER.gsp" destLoc="CFDataModel" src="tmp_out/vendordefinitions/NIKKO_CSV_NOHEADER.gsp"/-->
+			<!--deployGSP name="vendordifinition: NIKKO_CSV_SUPPORTHEADER.gsp" destLoc="CFDataModel" src="tmp_out/vendordefinitions/NIKKO_CSV_SUPPORTHEADER.gsp"/-->
 			<!--END VendorDefinition-->
 
 			<!--START BusinessFeed-->
@@ -95,18 +82,34 @@
 			<!--END MessageType-->
 
 			<!--START Workflow-->
-			<deployGSP name="workflow: NAM_ModifyFiles.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Nikko/NAM_ModifyFiles.gsp" type="workflow"/>
-			<deployGSP name="workflow: NAM_RefreshMView.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Nikko/NAM_RefreshMView.gsp" type="workflow"/>
-			<deployGSP name="workflow: NAM_StandardSubscriptionPublishingWrapper.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Nikko/NAM_StandardSubscriptionPublishingWrapper.gsp" type="workflow"/>
-			<deployGSP name="workflow: NTELNotification.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/NTELNotification.gsp" type="workflow"/>
-			<deployGSP name="workflow: WF_FileLoadingWrapper.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_FileLoadingWrapper.gsp" type="workflow"/>
-			<deployGSP name="workflow: WF_LoadCustomFiles.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_LoadCustomFiles.gsp" type="workflow"/>
-			<deployGSP name="workflow: WF_POSTETL.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/ETL/WF_POSTETL.gsp" type="workflow"/>
-			<deployGSP name="workflow: WF_PREETL.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/ETL/WF_PREETL.gsp" type="workflow"/>
-			<deployGSP name="workflow: WF_RunSFLPerFile.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_RunSFLPerFile.gsp" type="workflow"/>
-			<deployGSP name="workflow: WF_S3Test.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/AutoTest/WF_S3Test.gsp" type="workflow"/>
-			<deployGSP name="workflow: WF_SendMailNotification.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_SendMailNotification.gsp" type="workflow"/>
-			<!-- deployGSP name="Workflow: WF_S3Test" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/AutoTest/WF_S3Test.gsp" type="workflow"/ -->
+			<!--deployGSP name="workflow: Custom_CloseBulkExceptionsWrapper.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/ExceptionManagement/Custom_CloseBulkExceptionsWrapper.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: Custom_ResubmitBulkExceptionsWrapper.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/ExceptionManagement/Custom_ResubmitBulkExceptionsWrapper.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: Custom_ResubmitExceptions.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/ExceptionManagement/Custom_ResubmitExceptions.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: Custom_StandardSubscriptionPublishing.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/Publishing/Custom_StandardSubscriptionPublishing.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: Custom_WorkstationBulkResubmit.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/ExceptionManagement/Custom_WorkstationBulkResubmit.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: Custom_WorkstationResubmit.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/ExceptionManagement/Custom_WorkstationResubmit.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: FT_V_POS1_MVIEWREFRESH.gsp" destLoc="WFDataModel" src="tmp_out/workflows/FT_V_POS1_MVIEWREFRESH.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: ModifyFiles.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/Publishing/ModifyFiles.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: NAM_ModifyFiles.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Nikko/NAM_ModifyFiles.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: NAM_RefreshMView.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Nikko/NAM_RefreshMView.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: NAM_StandardSubscriptionPublishingWrapper.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Nikko/NAM_StandardSubscriptionPublishingWrapper.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: NTELNotification.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/NTELNotification.gsp" type="workflow"/-->
+			<deployGSP name="workflow: PublishFromUI.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/Publishing/PublishFromUI.gsp" type="workflow"/>
+			<!--deployGSP name="workflow: PublishJob.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/Publishing/PublishJob.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: PublishJobMonitor.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/Publishing/PublishJobMonitor.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: PublishReport.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/Publishing/PublishReport.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: RefreshMView.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/Publishing/RefreshMView.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: StandardSubscriptionPublishingWrapper.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/Publishing/StandardSubscriptionPublishingWrapper.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: WF_ExecuteBulkNavOversight.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/NavOversight/WF_ExecuteBulkNavOversight.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: WF_ExecuteNavOversight.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/NavOversight/WF_ExecuteNavOversight.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: WF_FileLoadingWrapper.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_FileLoadingWrapper.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: WF_LoadCustomFiles.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_LoadCustomFiles.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: WF_PREETL.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/ETL/WF_PREETL.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: WF_PRELOAD.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/ETL/WF_PRELOAD.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: WF_RunSFLPerFile.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_RunSFLPerFile.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: WF_S3Test.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/AutoTest/WF_S3Test.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: WF_SendMailNotification.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/WF_SendMailNotification.gsp" type="workflow"/-->
+			<!--deployGSP name="workflow: events.gsp" destLoc="WFDataModel" src="tmp_out/workflows/Custom/Publishing/events.gsp" type="workflow"/-->
 			<!--END Workflow-->
 
 			<!--START Event-->
@@ -116,49 +119,82 @@
 			<!--END Task-->
 
 			<!--START DDL-->
-			<sql name="ddl: 0010-SYNONYMS.sql" src="tmp_out/sql/DDL/0010-SYNONYMS.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="ddl: 0020-FT_CFG_MVW1.sql" src="tmp_out/sql/DDL/0020-FT_CFG_MVW1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<!--sql name="DML: 0010-ENTR" src="tmp_out/sql/DML/0010-ENTR.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/-->
 			<!--END DDL-->
 
 			<!--START PLSQL-->
+			<!--sqloperational name="plsql: 0010-FT_C_ISVALIDISIN.sql" src="tmp_out/sql/PLSQL/0010-FT_C_ISVALIDISIN.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 0020-FT_V_POS1.sql" src="tmp_out/sql/PLSQL/0020-FT_V_POS1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 0030-FT_CFG_MVW1.sql" src="tmp_out/sql/PLSQL/0030-FT_CFG_MVW1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 0040-REFRESH_MV_FT_V_POS1.sql" src="tmp_out/sql/PLSQL/0040-REFRESH_MV_FT_V_POS1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 0050-GRANTS_GC_OWN.sql" src="tmp_out/sql/PLSQL/0050-GRANTS_GC_OWN.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 0060-FT_T_PUB1.sql" src="tmp_out/sql/PLSQL/0060-FT_T_PUB1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 0060-FT_X_WRDD_P001.sql" src="tmp_out/sql/PLSQL/0060-FT_X_WRDD_P001.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 070-FT_V_FTR1.sql" src="tmp_out/sql/PLSQL/070-FT_V_FTR1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 070-FT_V_POR1.sql" src="tmp_out/sql/PLSQL/070-FT_V_POR1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 070-FT_V_PPA1.sql" src="tmp_out/sql/PLSQL/070-FT_V_PPA1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 070-FT_V_TOR1.sql" src="tmp_out/sql/PLSQL/070-FT_V_TOR1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 070-FT_V_TPA1.sql" src="tmp_out/sql/PLSQL/070-FT_V_TPA1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 070-FT_V_VOR1.sql" src="tmp_out/sql/PLSQL/070-FT_V_VOR1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 070-FT_V_VPA1.sql" src="tmp_out/sql/PLSQL/070-FT_V_VPA1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 080-FT_MV_PRR1.sql" src="tmp_out/sql/PLSQL/080-FT_MV_PRR1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 080-FT_T_DPL1.sql" src="tmp_out/sql/PLSQL/080-FT_T_DPL1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 080-FT_V_EAC1.sql" src="tmp_out/sql/PLSQL/080-FT_V_EAC1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 080-FT_V_ERR1.sql" src="tmp_out/sql/PLSQL/080-FT_V_ERR1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 080-FT_V_EXR1.sql" src="tmp_out/sql/PLSQL/080-FT_V_EXR1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 080-FT_V_EXR2.sql" src="tmp_out/sql/PLSQL/080-FT_V_EXR2.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 080-FT_V_PRR1.sql" src="tmp_out/sql/PLSQL/080-FT_V_PRR1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 080-MIGRATE_ALL_DUPLICATE_WPOS.sql" src="tmp_out/sql/PLSQL/080-MIGRATE_ALL_DUPLICATE_WPOS.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="plsql: 080-MIGRATE_DUPLICATE_WPOS.sql" src="tmp_out/sql/PLSQL/080-MIGRATE_DUPLICATE_WPOS.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
 			<!--END PLSQL-->
 
 			<!--START DML-->
-			<sql name="dml: 0001-DSRC.sql" src="tmp_out/sql/DML/0001-DSRC.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0010-ENTR.sql" src="tmp_out/sql/DML/0010-ENTR.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0011-FT_T_ISTY.sql" src="tmp_out/sql/DML/0011-FT_T_ISTY.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0012-EIST.sql" src="tmp_out/sql/DML/0012-EIST.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0013-EIST.sql" src="tmp_out/sql/DML/0013-EIST.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0030-GUID.sql" src="tmp_out/sql/DML/0030-GUID.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0040-IDMV.sql" src="tmp_out/sql/DML/0040-IDMV.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0041-IDMV-FUND-STRUCTURE.sql" src="tmp_out/sql/DML/0041-IDMV-FUND-STRUCTURE.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0050-INCS.sql" src="tmp_out/sql/DML/0050-INCS.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0060-MKEY.sql" src="tmp_out/sql/DML/0060-MKEY.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0070-MKID.sql" src="tmp_out/sql/DML/0070-MKID.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0080-RTNG.sql" src="tmp_out/sql/DML/0080-RTNG.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0090-STDF.sql" src="tmp_out/sql/DML/0090-STDF.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0100-UIBL.sql" src="tmp_out/sql/DML/0100-UIBL.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0110-GSHA.sql" src="tmp_out/sql/DML/0110-GSHA.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0120-ISCD.sql" src="tmp_out/sql/DML/0120-ISCD.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0130-BEGC.sql" src="tmp_out/sql/DML/0130-BEGC.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0134-ACC1.sql" src="tmp_out/sql/DML/0134-ACC1.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0140-IDMV.sql" src="tmp_out/sql/DML/0140-IDMV.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0145-STDF.sql" src="tmp_out/sql/DML/0145-STDF.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0170-FT_T_GUNT-REGIONS.sql" src="tmp_out/sql/DML/0170-FT_T_GUNT-REGIONS.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0180-FT_T_STDF-TKEXCHCDE.sql" src="tmp_out/sql/DML/0180-FT_T_STDF-TKEXCHCDE.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0190-FT_T_IDMV-FT_T_DSRC.sql" src="tmp_out/sql/DML/0190-FT_T_IDMV-FT_T_DSRC.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0200-ACCT_GU_PURP_TYP_Domain.sql" src="tmp_out/sql/DML/0200-ACCT_GU_PURP_TYP_Domain.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0200-SM_RLS_Configuration.sql" src="tmp_out/sql/DML/0200-SM_RLS_Configuration.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
-			<sql name="dml: 0220-ISGU.sql" src="tmp_out/sql/DML/0220-ISGU.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/>
+			<!--sqloperational name="dml: 0010-DSRC.sql" src="tmp_out/sql/DML/0010-DSRC.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0020_MEKY.sql" src="tmp_out/sql/DML/0020_MEKY.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0030-NTDF.sql" src="tmp_out/sql/DML/0030-NTDF.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0040-NTPM.sql" src="tmp_out/sql/DML/0040-NTPM.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0050-NTRS.sql" src="tmp_out/sql/DML/0050-NTRS.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0060-NTXT.sql" src="tmp_out/sql/DML/0060-NTXT.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0070-WUFD.sql" src="tmp_out/sql/DML/0070-WUFD.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0080-MKEY.sql" src="tmp_out/sql/DML/0080-MKEY.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0090-WPOS-WTRN DDL Changes.sql" src="tmp_out/sql/DML/0090-WPOS-WTRN DDL Changes.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0091-WPOS-WTRN META Changes.sql" src="tmp_out/sql/DML/0091-WPOS-WTRN META Changes.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0100-FT_BE_BEGC.sql" src="tmp_out/sql/DML/0100-FT_BE_BEGC.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0110-IDMV-Update.sql" src="tmp_out/sql/DML/0110-IDMV-Update.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0110-IDMV.sql" src="tmp_out/sql/DML/0110-IDMV.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0110-MKEY.sql" src="tmp_out/sql/DML/0110-MKEY.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0120-FT_O_UIBL.sql" src="tmp_out/sql/DML/0120-FT_O_UIBL.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0120-FT_V_POS1_STARTERSET.sql" src="tmp_out/sql/DML/0120-FT_V_POS1_STARTERSET.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0130-MKEY.sql" src="tmp_out/sql/DML/0130-MKEY.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0140-UIMC.sql" src="tmp_out/sql/DML/0140-UIMC.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0150-DWH-RLS-Configuration.sql" src="tmp_out/sql/DML/0150-DWH-RLS-Configuration.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0150-IDMV-DATA_SRC_ID-Obsolete.sql" src="tmp_out/sql/DML/0150-IDMV-DATA_SRC_ID-Obsolete.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0160-RLDL-NavOversight.sql" src="tmp_out/sql/DML/0160-RLDL-NavOversight.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0170-FT_T_PUB1_STARTERSET.sql" src="tmp_out/sql/DML/0170-FT_T_PUB1_STARTERSET.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0180-FT_V_ERR1_STARTERSET.sql" src="tmp_out/sql/DML/0180-FT_V_ERR1_STARTERSET.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0180-FT_V_FTR1_STARTERSET.sql" src="tmp_out/sql/DML/0180-FT_V_FTR1_STARTERSET.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0180-FT_V_POR1_STARTERSET.sql" src="tmp_out/sql/DML/0180-FT_V_POR1_STARTERSET.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0180-FT_V_PPA1_STARTERSET.sql" src="tmp_out/sql/DML/0180-FT_V_PPA1_STARTERSET.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0180-FT_V_TOR1_STARTERSET.sql" src="tmp_out/sql/DML/0180-FT_V_TOR1_STARTERSET.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0180-FT_V_TPA1_STARTERSET.sql" src="tmp_out/sql/DML/0180-FT_V_TPA1_STARTERSET.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0180-FT_V_VOR1_STARTERSET.sql" src="tmp_out/sql/DML/0180-FT_V_VOR1_STARTERSET.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<!--sqloperational name="dml: 0180-FT_V_VPA1_STARTERSET.sql" src="tmp_out/sql/DML/0180-FT_V_VPA1_STARTERSET.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/-->
+			<sqloperational name="dml: 0190-FT_O_MKEY.sql" src="tmp_out/sql/DML/0190-FT_O_MKEY.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.009" dbDialect="ORACLE"/>
 			<!--END DML-->
 
 			<!--START GSO-->
-			<deployGSE name="gso: ApplicationUser.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/ApplicationUser.gso" encoding="utf-8"/>
-			<deployGSE name="gso: ApplicationUserCUST.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/ApplicationUserCUST.gso" encoding="utf-8"/>
-			<deployGSE name="gso: GSORepository.goc" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/GSORepository.goc" encoding="utf-8"/>
-			<deployGSE name="gso: GSORepository.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/GSORepository.gso" encoding="utf-8"/>
-			<!--deployGSE name="GSO: ApplicationUser" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/ApplicationUser.gso" encoding="windows-1252"/-->
+			<!--deployGSE name="gso: DWHIssue_Nikko_169880.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/DWHIssue_Nikko_169880.gso" encoding="utf-8"/-->
+			<!--deployGSE name="gso: DWHPosition_DWStatus.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/DWHPosition_DWStatus.gso" encoding="utf-8"/-->
+			<!--deployGSE name="gso: GSORepository.goc" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/GSORepository.goc" encoding="utf-8"/-->
+			<!--deployGSE name="gso: GSORepository.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/GSORepository.gso" encoding="utf-8"/-->
+			<!--deployGSE name="gso: PositionsOverviewReportCUST.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/PositionsOverviewReportCUST.gso" encoding="utf-8"/-->
+			<!--deployGSE name="gso: PositionsPerAccountReportCUST.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/PositionsPerAccountReportCUST.gso" encoding="utf-8"/-->
+			<!--deployGSE name="gso: TransactionsOverviewReportCUST.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/TransactionsOverviewReportCUST.gso" encoding="utf-8"/-->
+			<!--deployGSE name="gso: TransactionsPerAccountReportCUST.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/TransactionsPerAccountReportCUST.gso" encoding="utf-8"/-->
+			<!--deployGSE name="gso: ValuationOverviewReportCUST.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/ValuationOverviewReportCUST.gso" encoding="utf-8"/-->
+			<!--deployGSE name="gso: ValuationPerAccountReportCUST.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/ValuationPerAccountReportCUST.gso" encoding="utf-8"/-->
+			<!--deployGSE name="gso: WACS_Revised.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/WACS_Revised.gso" encoding="utf-8"/-->
+			<!--deployGSE name="gso: WPOS.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/WPOS.gso" encoding="utf-8"/-->
+			<!--deployGSE name="gso: WTRN.gso" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/WTRN.gso" encoding="utf-8"/-->
 			<!--END GSO-->
 
 			<!--START GOC-->

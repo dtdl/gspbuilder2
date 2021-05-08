@@ -144,10 +144,10 @@ public class PkgFileSVNGenerator extends BasePkgFileGenerator {
 			e.printStackTrace();
 		}
 
-        // debug
-        for (GSComponent c: cmptList) {
-        	logger.debug("GSComponent:" + c);
-        }
+//        // debug
+//        for (GSComponent c: cmptList) {
+//        	logger.debug("GSComponent:" + c);
+//        }
 		
 		logger.info("getComponentList end");
 		return cmptList;
@@ -171,7 +171,7 @@ public class PkgFileSVNGenerator extends BasePkgFileGenerator {
 		            + entry.getName() + " (author: '" + entry.getAuthor()
 		            + "'; revision: " + entry.getRevision() + "; date: " + entry.getDate() + ")");
 		    if (entry.getKind() == SVNNodeKind.FILE) {
-		        cmptList.add(new GSComponent("/"+path+"/"+entry.getName(), "", entry.getRevision()>=this.versionFrom));
+		        cmptList.add(new GSComponent(this.svnurl+"/"+path+"/"+entry.getName(), this.svnurl, entry.getRevision()>=this.versionFrom));
 		    }
 		    //Checking up if the entry is a directory.
 		    if (entry.getKind() == SVNNodeKind.DIR) {
@@ -179,7 +179,7 @@ public class PkgFileSVNGenerator extends BasePkgFileGenerator {
 		    }
 		}
 		
-		cmptList.sort(new GSComponent());
+//		cmptList.sort(new GSComponent());
 	        
 		return cmptList;
 	}

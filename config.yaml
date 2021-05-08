@@ -7,7 +7,7 @@
 # e.g. YamlConfig.getConfig("generator.typ");
 
 generator:
-   typ: local  ## one of local/svn/git
+   typ: svn  ## one of local/svn/git
    componentpath:
       resource: /resources/
       vendordifinition: /vendordefinitions/
@@ -22,40 +22,41 @@ generator:
       event: /events/
       engine: /engines/
       query: /queries/
-   file:
-      packagedescriptiongc: 
-         name: PackageDescription.xml
-         template: PackageDescription.ftl
-      packagedescriptiondwh: 
-         name: PackageDescription.Dwh.xml
-         template: PackageDescription.Dwh.ftl
+      publishprofile: /publishingProfiles/
+#   file:
+#      packagedescriptiongc: 
+#         name: PackageDescription.xml
+#         template: PackageDescription.ftl
+#      packagedescriptiondwh: 
+#         name: PackageDescription.Dwh.xml
+#         template: PackageDescription.Dwh.ftl
 #      packagedescriptionengine: 
 #         name: PackageDescription.Engine.xml
 #         template: PackageDescription.Engine.ftl
-      buildxmlgc:
-         name: build.xml
+#      buildxmlgc:
+#         name: build.xml
 #         template: buildxml.Gc.ftl
-         template: buildxml.ftl
-      buildxmldwh:
-         name: build.xml
+#         template: buildxml.ftl
+#      buildxmldwh:
+#         name: build.xml
 #         template: buildxml.Dwh.ftl
-         template: buildxml.ftl
+#         template: buildxml.ftl
 #      buildxmlengine:
 #         name: build.xml
 #         template: buildxml.Engine.ftl
-      buildproperties:
-         name: build.properties
-         template: buildproperties.ftl
+      #buildproperties:
+#         name: build.properties
+#         template: buildproperties.ftl
 
 target:  ## can be overwritten by runtime parameter -Dtarget=gc,engine
    gc:
       name: NIKKO_CustomGC
       baseversion: 8.7.2  
-      buildversion: 001   ## can be overwritten by runtime parameter -Dbuildversion=001
-      type: full
+#      buildversion: 001   ## can be overwritten by runtime parameter -Dbuildversion=001
+      type: Patch
       localfolder: D:\Projects\Nikko\E41-svn\trunk\customgc\configuration
-      svnurl: http://svn/psg/NIKKO/trunk/customgc/configuration
-      svnversionfrom: 634
+      svnurl: http://192.168.224.182/psg/NIKKO/trunk/customgc/configuration
+      svnversionfrom: 672
       giturl: https://github.com/dtdl/gspbuilder2.git # not available
       files:
          packagedescription:
@@ -63,21 +64,22 @@ target:  ## can be overwritten by runtime parameter -Dtarget=gc,engine
             template: PackageDescription.Gc.ftl
          buildxml:
             name: build.xml
-            template: buildxml.Gc.ftl
+            template: buildxml.ftl
    dwh: 
       name: NIKKO_CustomDWH
       baseversion: 8.7.2  
 #      buildversion: 001   ## can be overwritten by runtime parameter -Dbuildversion=001
       type: full
       localfolder: D:\Projects\Nikko\E41-svn\trunk\customdwh\configuration
-      svnurl: http://svn/psg/NIKKO/trunk/customdwh/configuration
-      svnversionfrom: 634
-      packagedescription:
-         name: PackageDescription.Dwh.xml
-         template: PackageDescription.Dwh.ftl
-      buildxml:
-         name: build.Dwh.xml
-         template: buildxml.Dwh.ftl
+      svnurl: http://192.168.224.182/psg/NIKKO/trunk/customdwh/configuration
+      svnversionfrom: 673
+      files:
+         packagedescription:
+            name: PackageDescription.xml
+            template: PackageDescription.Dwh.ftl
+         buildxml:
+            name: build.xml
+            template: buildxml.ftl
 #   engine: 
 #      name: NIKKO_CustomEngine
 #      enginejar: NIKKOCustomRule.jar
@@ -121,7 +123,8 @@ git:
 
 ant:
    dir:
-      base: ./
-      temp: ./customgc_temp
-      package: ./package
+      base: .
+      configuration: ./configuration
+      temp: ./custom_temp
+      package: ../packages/custom/gc
 

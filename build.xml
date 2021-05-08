@@ -1,31 +1,33 @@
 <project name="j4fe" default="build-all">
 	<!-- Specify all paths here, also only specify relative paths -->
 	<property name="build.dir" value="."/>
-	<property location="." file="${build.dir}/build.properties"/>
-
-	<target name="makedir" depends="prepare">
-		<echo message="Base Directory : ${base.dir}"/>
-		<echo message="Packages Directory : ${packages.dir}"/>
-		<mkdir dir="${temp.dir}"/>
-		<mkdir dir="${packages.dir}"/>
-		<mkdir dir="${packages.dir}/${today}"/>
-	</target>
-
-	<target name="clean">
-		<delete includeemptydirs="true">
-			<fileset dir="${temp.dir}" includes="**/*"/>
-		</delete>
-	</target>
+	<!--<property location="." file="./build.properties"/>-->
 
 	<target name="prepare">
 		<tstamp>
 			<format property="today" pattern="yyyyMMdd" locale="en,UK"/>
 		</tstamp>
 	</target>
+	
+	<target name="makedir" depends="prepare">
+		<echo message="Base Directory : ."/>
+		<echo message="Packages Directory : ../packages/custom/gc"/>
+		<mkdir dir="./customgc_temp"/>
+		<mkdir dir="../packages/custom/gc"/>
+		<mkdir dir="../packages/custom/gc/${today}"/>
+	</target>
+
+	<target name="clean">
+		<delete includeemptydirs="true">
+			<fileset dir="./customgc_temp" includes="**/*"/>
+		</delete>
+	</target>
 
 	<!-- packaging GC components -->
 	<target name="build.customgc">
 		<!--START SaveDTD-->
+		<!--copy file="./configuration/reference/rulexml/StreetRefMsgSet.xml" todir="./customgc_temp/reference/rulexml/"/-->
+		<!--copy file="./configuration/reference/rulexml/msgtype.dtd" todir="./customgc_temp/reference/rulexml/"/-->
 		<!--END SaveDTD-->
 
 
@@ -33,8 +35,25 @@
 		<!--END SaveLOB-->
 
 
-		<!--START MDX-->
-		<!--END MDX-->
+		<!--START Resource-->
+		<!--copy file="./configuration/resources/xml/feeds/NIKKO/BNPLineSplitter.xml" todir="./customgc_temp/resources/xml/feeds/NIKKO/"/-->
+		<copy file="./configuration/resources/mapping/NIKKO/BNP/DWH_BNP_WACS.mdx" todir="./customgc_temp/resources/mapping/NIKKO/BNP/"/>
+		<copy file="./configuration/resources/mapping/NIKKO/BNP/DWH_BNP_WPOS_INVENTORY.mdx" todir="./customgc_temp/resources/mapping/NIKKO/BNP/"/>
+		<!--copy file="./configuration/resources/mapping/NIKKO/BNP/DWH_BNP_WPOS_NZFA.mdx" todir="./customgc_temp/resources/mapping/NIKKO/BNP/"/-->
+		<!--copy file="./configuration/resources/mapping/NIKKO/BNP/DWH_BNP_WPOS_NZMMC.mdx" todir="./customgc_temp/resources/mapping/NIKKO/BNP/"/-->
+		<!--copy file="./configuration/resources/mapping/NIKKO/BNP/DWH_BNP_WPOS_SOD.mdx" todir="./customgc_temp/resources/mapping/NIKKO/BNP/"/-->
+		<!--copy file="./configuration/resources/mapping/NIKKO/BNP/DWH_BNP_WTRN_SGFA.mdx" todir="./customgc_temp/resources/mapping/NIKKO/BNP/"/-->
+		<!--copy file="./configuration/resources/mapping/NIKKO/BNP/DWH_BNP_WTRN_SOD.mdx" todir="./customgc_temp/resources/mapping/NIKKO/BNP/"/-->
+		<!--copy file="./configuration/resources/mapping/NIKKO/SMT/DWH_SMT_WACS_NAV.mdx" todir="./customgc_temp/resources/mapping/NIKKO/SMT/"/-->
+		<!--copy file="./configuration/resources/mapping/NIKKO/SMT/DWH_SMT_WPOS_HOLDINGS.mdx" todir="./customgc_temp/resources/mapping/NIKKO/SMT/"/-->
+		<!--copy file="./configuration/resources/mapping/NIKKO/SMT/DWH_SMT_WTRN_TRANSACTIONS.mdx" todir="./customgc_temp/resources/mapping/NIKKO/SMT/"/-->
+		<!--copy file="./configuration/resources/Custom/S3Workflow/FilesToLoad.xml" todir="./customgc_temp/resources/Custom/S3Workflow/"/-->
+		<!--copy file="./configuration/resources/xml/feeds/NIKKO/LineByLineCSTM.xml" todir="./customgc_temp/resources/xml/feeds/NIKKO/"/-->
+		<!--copy file="./configuration/resources/xml/feeds/NIKKO/LineByLineSkipHeaderCSTM.xml" todir="./customgc_temp/resources/xml/feeds/NIKKO/"/-->
+		<!--copy file="./configuration/resources/Custom/Publishing/publishingConfiguration.xml" todir="./customgc_temp/resources/Custom/Publishing/"/-->
+		<!--copy file="./configuration/resources/scripts/replaceFullyQualifiedNameHeaderWithLabels.bshi" todir="./customgc_temp/resources/scripts/"/-->
+		<!--copy file="./configuration/resources/scripts/replaceHeaderWithUIBLLabels.bshi" todir="./customgc_temp/resources/scripts/"/-->
+		<!--END Resource-->
 
 
 		<!--START XMLFeed-->
@@ -46,6 +65,9 @@
 
 
 		<!--START VendorDefinition-->
+		<!--copy file="./configuration/vendordefinitions/NIKKO_BNP_SUPPORTHEADER.gsp" todir="./customgc_temp/vendordefinitions/"/-->
+		<!--copy file="./configuration/vendordefinitions/NIKKO_CSV_NOHEADER.gsp" todir="./customgc_temp/vendordefinitions/"/-->
+		<!--copy file="./configuration/vendordefinitions/NIKKO_CSV_SUPPORTHEADER.gsp" todir="./customgc_temp/vendordefinitions/"/-->
 		<!--END VendorDefinition-->
 
 
@@ -58,14 +80,50 @@
 
 
 		<!--START Workflow-->
+		<!--copy file="./configuration/workflows/Custom/ExceptionManagement/Custom_CloseBulkExceptionsWrapper.gsp" todir="./customgc_temp/workflows/Custom/ExceptionManagement/"/-->
+		<!--copy file="./configuration/workflows/Custom/ExceptionManagement/Custom_ResubmitBulkExceptionsWrapper.gsp" todir="./customgc_temp/workflows/Custom/ExceptionManagement/"/-->
+		<!--copy file="./configuration/workflows/Custom/ExceptionManagement/Custom_ResubmitExceptions.gsp" todir="./customgc_temp/workflows/Custom/ExceptionManagement/"/-->
+		<!--copy file="./configuration/workflows/Custom/Publishing/Custom_StandardSubscriptionPublishing.gsp" todir="./customgc_temp/workflows/Custom/Publishing/"/-->
+		<!--copy file="./configuration/workflows/Custom/ExceptionManagement/Custom_WorkstationBulkResubmit.gsp" todir="./customgc_temp/workflows/Custom/ExceptionManagement/"/-->
+		<!--copy file="./configuration/workflows/Custom/ExceptionManagement/Custom_WorkstationResubmit.gsp" todir="./customgc_temp/workflows/Custom/ExceptionManagement/"/-->
+		<!--copy file="./configuration/workflows/FT_V_POS1_MVIEWREFRESH.gsp" todir="./customgc_temp/workflows/"/-->
+		<!--copy file="./configuration/workflows/Custom/Publishing/ModifyFiles.gsp" todir="./customgc_temp/workflows/Custom/Publishing/"/-->
+		<!--copy file="./configuration/workflows/Nikko/NAM_ModifyFiles.gsp" todir="./customgc_temp/workflows/Nikko/"/-->
+		<!--copy file="./configuration/workflows/Nikko/NAM_RefreshMView.gsp" todir="./customgc_temp/workflows/Nikko/"/-->
+		<!--copy file="./configuration/workflows/Nikko/NAM_StandardSubscriptionPublishingWrapper.gsp" todir="./customgc_temp/workflows/Nikko/"/-->
+		<!--copy file="./configuration/workflows/Custom/S3/NTELNotification.gsp" todir="./customgc_temp/workflows/Custom/S3/"/-->
+		<copy file="./configuration/workflows/Custom/Publishing/PublishFromUI.gsp" todir="./customgc_temp/workflows/Custom/Publishing/"/>
+		<!--copy file="./configuration/workflows/Custom/Publishing/PublishJob.gsp" todir="./customgc_temp/workflows/Custom/Publishing/"/-->
+		<!--copy file="./configuration/workflows/Custom/Publishing/PublishJobMonitor.gsp" todir="./customgc_temp/workflows/Custom/Publishing/"/-->
+		<!--copy file="./configuration/workflows/Custom/Publishing/PublishReport.gsp" todir="./customgc_temp/workflows/Custom/Publishing/"/-->
+		<!--copy file="./configuration/workflows/Custom/Publishing/RefreshMView.gsp" todir="./customgc_temp/workflows/Custom/Publishing/"/-->
+		<!--copy file="./configuration/workflows/Custom/Publishing/StandardSubscriptionPublishingWrapper.gsp" todir="./customgc_temp/workflows/Custom/Publishing/"/-->
+		<!--copy file="./configuration/workflows/Custom/NavOversight/WF_ExecuteBulkNavOversight.gsp" todir="./customgc_temp/workflows/Custom/NavOversight/"/-->
+		<!--copy file="./configuration/workflows/Custom/NavOversight/WF_ExecuteNavOversight.gsp" todir="./customgc_temp/workflows/Custom/NavOversight/"/-->
+		<!--copy file="./configuration/workflows/Custom/S3/WF_FileLoadingWrapper.gsp" todir="./customgc_temp/workflows/Custom/S3/"/-->
+		<!--copy file="./configuration/workflows/Custom/S3/WF_LoadCustomFiles.gsp" todir="./customgc_temp/workflows/Custom/S3/"/-->
+		<!--copy file="./configuration/workflows/Custom/S3/ETL/WF_PREETL.gsp" todir="./customgc_temp/workflows/Custom/S3/ETL/"/-->
+		<!--copy file="./configuration/workflows/Custom/S3/ETL/WF_PRELOAD.gsp" todir="./customgc_temp/workflows/Custom/S3/ETL/"/-->
+		<!--copy file="./configuration/workflows/Custom/S3/WF_RunSFLPerFile.gsp" todir="./customgc_temp/workflows/Custom/S3/"/-->
+		<!--copy file="./configuration/workflows/Custom/S3/AutoTest/WF_S3Test.gsp" todir="./customgc_temp/workflows/Custom/S3/AutoTest/"/-->
+		<!--copy file="./configuration/workflows/Custom/S3/WF_SendMailNotification.gsp" todir="./customgc_temp/workflows/Custom/S3/"/-->
+		<!--copy file="./configuration/workflows/Custom/Publishing/events.gsp" todir="./customgc_temp/workflows/Custom/Publishing/"/-->
 		<!--END Workflow-->
 
 
 		<!--START Event-->
+		<!--copy file="./configuration/events/CustomResubmitExceptions.gsp" todir="./customgc_temp/events/"/-->
+		<!--copy file="./configuration/events/Custom_AutoCloseExceptions.gsp" todir="./customgc_temp/events/"/-->
+		<!--copy file="./configuration/events/Custom_MIGRATE_ALL_DUPLICATE_WPOS.gsp" todir="./customgc_temp/events/"/-->
+		<!--copy file="./configuration/events/EV_ExecuteNavOversight.gsp" todir="./customgc_temp/events/"/-->
+		<!--copy file="./configuration/events/EV_FileLoadingWrapper.gsp" todir="./customgc_temp/events/"/-->
+		<!--copy file="./configuration/events/EV_PublishFromUI.gsp" todir="./customgc_temp/events/"/-->
 		<!--END Event-->
 
 
 		<!--START Task-->
+		<!--copy file="./configuration/tasks/LOAD_ALL.gsp" todir="./customgc_temp/tasks/"/-->
+		<!--copy file="./configuration/tasks/NavOversightEvent.gsp" todir="./customgc_temp/tasks/"/-->
 		<!--END Task-->
 
 
@@ -74,14 +132,81 @@
 
 
 		<!--START PLSQL-->
+		<!--copy file="./configuration/sql/PLSQL/0010-FT_C_ISVALIDISIN.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/0020-FT_V_POS1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/0030-FT_CFG_MVW1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/0040-REFRESH_MV_FT_V_POS1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/0050-GRANTS_GC_OWN.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/0060-FT_T_PUB1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/0060-FT_X_WRDD_P001.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/070-FT_V_FTR1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/070-FT_V_POR1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/070-FT_V_PPA1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/070-FT_V_TOR1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/070-FT_V_TPA1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/070-FT_V_VOR1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/070-FT_V_VPA1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/080-FT_MV_PRR1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/080-FT_T_DPL1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/080-FT_V_EAC1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/080-FT_V_ERR1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/080-FT_V_EXR1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/080-FT_V_EXR2.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/080-FT_V_PRR1.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/080-MIGRATE_ALL_DUPLICATE_WPOS.sql" todir="./customgc_temp/sql/PLSQL/"/-->
+		<!--copy file="./configuration/sql/PLSQL/080-MIGRATE_DUPLICATE_WPOS.sql" todir="./customgc_temp/sql/PLSQL/"/-->
 		<!--END PLSQL-->
 
 
 		<!--START DML-->
+		<!--copy file="./configuration/sql/DML/0010-DSRC.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0020_MEKY.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0030-NTDF.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0040-NTPM.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0050-NTRS.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0060-NTXT.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0070-WUFD.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0080-MKEY.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0090-WPOS-WTRN DDL Changes.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0091-WPOS-WTRN META Changes.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0100-FT_BE_BEGC.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0110-IDMV-Update.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0110-IDMV.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0110-MKEY.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0120-FT_O_UIBL.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0120-FT_V_POS1_STARTERSET.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0130-MKEY.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0140-UIMC.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0150-DWH-RLS-Configuration.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0150-IDMV-DATA_SRC_ID-Obsolete.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0160-RLDL-NavOversight.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0170-FT_T_PUB1_STARTERSET.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0180-FT_V_ERR1_STARTERSET.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0180-FT_V_FTR1_STARTERSET.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0180-FT_V_POR1_STARTERSET.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0180-FT_V_PPA1_STARTERSET.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0180-FT_V_TOR1_STARTERSET.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0180-FT_V_TPA1_STARTERSET.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0180-FT_V_VOR1_STARTERSET.sql" todir="./customgc_temp/sql/DML/"/-->
+		<!--copy file="./configuration/sql/DML/0180-FT_V_VPA1_STARTERSET.sql" todir="./customgc_temp/sql/DML/"/-->
+		<copy file="./configuration/sql/DML/0190-FT_O_MKEY.sql" todir="./customgc_temp/sql/DML/"/>
 		<!--END DML-->
 
 
 		<!--START GSO-->
+		<!--copy file="./configuration/gso/GSOConfig/DWHIssue_Nikko_169880.gso" todir="./customgc_temp/gso/GSOConfig/"/-->
+		<!--copy file="./configuration/gso/GSOConfig/DWHPosition_DWStatus.gso" todir="./customgc_temp/gso/GSOConfig/"/-->
+		<!--copy file="./configuration/gso/GSOConfig/GSORepository.goc" todir="./customgc_temp/gso/GSOConfig/"/-->
+		<!--copy file="./configuration/gso/GSOConfig/GSORepository.gso" todir="./customgc_temp/gso/GSOConfig/"/-->
+		<!--copy file="./configuration/gso/GSOConfig/PositionsOverviewReportCUST.gso" todir="./customgc_temp/gso/GSOConfig/"/-->
+		<!--copy file="./configuration/gso/GSOConfig/PositionsPerAccountReportCUST.gso" todir="./customgc_temp/gso/GSOConfig/"/-->
+		<!--copy file="./configuration/gso/GSOConfig/TransactionsOverviewReportCUST.gso" todir="./customgc_temp/gso/GSOConfig/"/-->
+		<!--copy file="./configuration/gso/GSOConfig/TransactionsPerAccountReportCUST.gso" todir="./customgc_temp/gso/GSOConfig/"/-->
+		<!--copy file="./configuration/gso/GSOConfig/ValuationOverviewReportCUST.gso" todir="./customgc_temp/gso/GSOConfig/"/-->
+		<!--copy file="./configuration/gso/GSOConfig/ValuationPerAccountReportCUST.gso" todir="./customgc_temp/gso/GSOConfig/"/-->
+		<!--copy file="./configuration/gso/GSOConfig/WACS_Revised.gso" todir="./customgc_temp/gso/GSOConfig/"/-->
+		<!--copy file="./configuration/gso/GSOConfig/WPOS.gso" todir="./customgc_temp/gso/GSOConfig/"/-->
+		<!--copy file="./configuration/gso/GSOConfig/WTRN.gso" todir="./customgc_temp/gso/GSOConfig/"/-->
 		<!--END GSO-->
 
 
@@ -90,32 +215,38 @@
 
 
 		<!--START PublishingProfile-->
+		<!--copy file="./configuration/publishingProfiles/NAM_BNP_POSITIONS.gsp" todir="./customgc_temp/publishingProfiles/"/-->
+		<!--copy file="./configuration/publishingProfiles/NAM_BNP_WPOS_SOD_PUB.gsp" todir="./customgc_temp/publishingProfiles/"/-->
+		<!--copy file="./configuration/publishingProfiles/NAM_BNP_WTRN_SOD_PUB.gsp" todir="./customgc_temp/publishingProfiles/"/-->
+		<!--copy file="./configuration/publishingProfiles/NAM_POSITIONS_FROM_UI_PUB.gsp" todir="./customgc_temp/publishingProfiles/"/-->
+		<!--copy file="./configuration/publishingProfiles/NAM_TRANSACTIONS.gsp" todir="./customgc_temp/publishingProfiles/"/-->
+		<!--copy file="./configuration/publishingProfiles/NAM_TRANSACTIONS_FROM_UI_PUB.gsp" todir="./customgc_temp/publishingProfiles/"/-->
 		<!--END PublishingProfile-->
 
-		<tar destfile="${temp.dir}/NIKKO_CustomGC.tar.gz" compression="gzip">
-			<tarfileset dir="${temp.dir}">
+		<tar destfile="./customgc_temp/NIKKO_CustomGC.tar.gz" compression="gzip">
+			<tarfileset dir="./customgc_temp">
 				<include name="**"/>
 			</tarfileset>
 		</tar>
 		
 		<!-- move the sfile out of the temporary directory so they do not get packaged in the tar.gz file -->
-		<copy file="./PackageDescription.xml" tofile="${temp.dir}/PackageDescription.xml"/>
-		<copy file="./ReleaseNotes.docx" tofile="${temp.dir}/ReleaseNotes.docx" failonerror="false"/>
+		<copy file="./PackageDescription.xml" tofile="./customgc_temp/PackageDescription.xml"/>
+		<copy file="./ReleaseNotes.docx" tofile="./customgc_temp/ReleaseNotes.docx" failonerror="false"/>
 
 		<!-- zip the files together with the release notes and the package description -->
-		<zip destfile="${temp.dir}/NIKKO_CustomGC_${build.version}.zip">
-			<fileset dir="${temp.dir}/">
+		<zip destfile="./customgc_temp/NIKKO_CustomGC_8.7.2.009.zip">
+			<fileset dir="./customgc_temp/">
 				<include name="NIKKO_CustomGC.tar.gz"/>
 				<include name="PackageDescription.xml"/>
 				<include name="ReleaseNotes.docx"/>
 			</fileset>
 		</zip>
 
-		<move file="${temp.dir}/NIKKO_CustomGC_${build.version}.zip" todir="${packages.dir}/${today}"/>
+		<move file="./customgc_temp/NIKKO_CustomGC_8.7.2.009.zip" todir="../packages/custom/gc/${today}"/>
 	</target>
 
 	<target name="removetempdir">
-		<delete dir="${temp.dir}"/>
+		<delete dir="./customgc_temp"/>
 	</target>
 	
 

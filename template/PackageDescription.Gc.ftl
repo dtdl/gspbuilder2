@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PackageDescription minInstallCenterVersion="${yamlConfig["target"]["gc"]["baseversion"]}" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="PackageDescription.xsd">
-		<Package name="${yamlConfig["target"]["gc"]["name"]}" type="${yamlConfig["target"]["gc"]["type"]}" version="${yamlConfig["target"]["gc"]["buildversion"]}">
+		<Package name="${yamlConfig["target"]["gc"]["name"]}" type="${yamlConfig["target"]["gc"]["type"]}" version="${yamlConfig["target"]["gc"]["baseversion"]}.${buildVersion}">
 		<Component>${yamlConfig["target"]["gc"]["name"]}</Component>
 		<Description>${yamlConfig["target"]["gc"]["name"]}</Description>
 		<Content>
@@ -56,15 +56,14 @@
 			<tgz description="Untar package archive" dest="tmp_out/" name="Untar Package" src="${yamlConfig["target"]["gc"]["name"]}.tar.gz" srcLoc="PackageZip"/>
 			
 			<!--START SaveDTD-->
-<#list componentList as component><#if component.cmptTyp == "saveDtd">
-			<<#if !component.active>!--</#if>savedtd name="${component.cmptTyp}: ${component.cmptName}" destLoc="CFDataModel" src="tmp_out${component.cmptPath}" columnName="MSG_SET_BLOB" columnkeyname="XML_MSG_SET_ID" columnkeyvalue="1" dtdFile="tmp_out${component.cmptPath}msgtype.dtd" lastChgUsrId="CUSTOM" tableName="FT_T_XMGS"/<#if !component.active>--</#if>>
+<#list componentList as component><#if component.cmptTyp == "saveDtd" && !(component.cmptName?ends_with(".dtd"))>
+			<<#if !component.active>!--</#if>savedtd name="${component.cmptTyp}: ${component.cmptName}" destLoc="CFDataModel" src="tmp_out${component.cmptPath}" columnName="MSG_SET_BLOB" columnkeyname="XML_MSG_SET_ID" columnkeyvalue="1" dtdFile="tmp_out${component.cmptFolder}msgtype.dtd" lastChgUsrId="CUSTOM" tableName="FT_T_XMGS"/<#if !component.active>--</#if>>
 </#if></#list>
-			<!--<savedtd name="Save DTD: StreetRefMsgSetGC" destLoc="CFDataModel" src="tmp_out/reference/rulexml/StreetRefMsgSetGC.xml" columnName="MSG_SET_BLOB" columnkeyname="XML_MSG_SET_ID" columnkeyvalue="1" dtdFile="tmp_out/reference/rulexml/msgtype.dtd" lastChgUsrId="RMBP:CSTM" tableName="FT_T_XMGS"/>-->
 			<!--END SaveDTD-->
 
 			<!--START SaveLOB-->
-<#list componentList as component><#if component.cmptTyp == "saveLob">
-			<<#if !component.active>!--</#if>savelob name="${component.cmptTyp}: ${component.cmptName}" destLoc="CFDataModel" src="tmp_out${component.cmptPath}" columnName="XML_CONFIG_CLOB" columnkeyname="XML_CONFIG_MNEM" columnkeyvalue="VSH" dtdFile="tmp_out${component.cmptPath}VSH.dtd" lastChgUsrId="CUSTOM" tableName="FT_T_XMGS"/<#if !component.active>--</#if>>
+<#list componentList as component><#if component.cmptTyp == "saveLob" && !(component.cmptName?ends_with(".dtd"))>
+			<<#if !component.active>!--</#if>savelob name="${component.cmptTyp}: ${component.cmptName}" destLoc="CFDataModel" src="tmp_out${component.cmptPath}" columnName="XML_CONFIG_CLOB" columnkeyname="XML_CONFIG_MNEM" columnkeyvalue="${component.cmptShortName}" dtdFile="tmp_out${component.cmptFolder}${component.cmptShortName}.dtd" lastChgUsrId="CUSTOM" tableName="FT_T_XCFG"/<#if !component.active>--</#if>>
 </#if></#list>
 			<!--<savelob name="Save LOB: IDUniquenessCheckMatchKeySet" destLoc="CFDataModel" src="tmp_out/reference/streetreffiles/IDUniquenessCheckMatchKeySet.xml" columnName="XML_CONFIG_CLOB" columnkeyname="XML_CONFIG_MNEM" columnkeyvalue="IDUniquenessCheckMatchKeySet" dtdFile="tmp_out/reference/streetreffiles/IDUniquenessCheckMatchKeySet.dtd" lastChgUsrId="RMBP:CSTM" tableName="FT_T_XCFG"/>-->
 			<!--END SaveLOB-->
@@ -73,7 +72,6 @@
 <#list componentList as component><#if component.cmptTyp == "resource">
 			<<#if !component.active>!--</#if>deployResource name="${component.cmptTyp}: ${component.cmptName}" destLoc="CFDataModel" src="tmp_out${component.cmptPath}" dest="${component.cmptOrchPath}" encoding="UTF-8"/<#if !component.active>--</#if>>
 </#if></#list>
-			<!--deployResource name="MDX: GC_BNP_ACCT" destLoc="CFDataModel" src="tmp_out/mapping/NIKKO/BNP/GC_BNP_ACCT.mdx" dest="mapping/NIKKO/BNP" encoding="utf-8"/-->
 			<!--END RESOURCE-->
 
 			<!--START XMLFeed-->
@@ -86,7 +84,6 @@
 <#list componentList as component><#if component.cmptTyp == "vendordifinition">
 			<<#if !component.active>!--</#if>deployGSP name="${component.cmptTyp}: ${component.cmptName}" destLoc="CFDataModel" src="tmp_out${component.cmptPath}"/<#if !component.active>--</#if>>
 </#if></#list>
-			<!--deployGSP name="VendorDefinition: NIKKO_CSV_LINEBYLINE" destLoc="CFDataModel" src="tmp_out/vendordefinitions/NIKKO_CSV_LINEBYLINE.gsp"/-->
 			<!--END VendorDefinition-->
 
 			<!--START BusinessFeed-->
@@ -99,7 +96,6 @@
 <#list componentList as component><#if component.cmptTyp == "workflow">
 			<<#if !component.active>!--</#if>deployGSP name="${component.cmptTyp}: ${component.cmptName}" destLoc="WFDataModel" src="tmp_out${component.cmptPath}" type="workflow"/<#if !component.active>--</#if>>
 </#if></#list>
-			<!-- deployGSP name="Workflow: WF_S3Test" destLoc="WFDataModel" src="tmp_out/workflows/Custom/S3/AutoTest/WF_S3Test.gsp" type="workflow"/ -->
 			<!--END Workflow-->
 
 			<!--START Event-->
@@ -110,20 +106,19 @@
 
 			<!--START DDL-->
 <#list componentList as component><#if component.cmptTyp == "ddl">
-			<<#if !component.active>!--</#if>sql name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["target"]["gc"]["buildversion"]}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
+			<<#if !component.active>!--</#if>sqloperational name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["target"]["gc"]["baseversion"]}.${buildVersion}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
 </#if></#list>
-			<!--sql name="DML: 0010-ENTR" src="tmp_out/sql/DML/0010-ENTR.sql" destLoc="GSDMDataModel" patchLevel="8.7.2.01" dbDialect="ORACLE"/-->
 			<!--END DDL-->
 
 			<!--START PLSQL-->
 <#list componentList as component><#if component.cmptTyp == "plsql">
-			<<#if !component.active>!--</#if>sql name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["target"]["gc"]["buildversion"]}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
+			<<#if !component.active>!--</#if>sqloperational name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["target"]["gc"]["baseversion"]}.${buildVersion}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
 </#if></#list>
 			<!--END PLSQL-->
 
 			<!--START DML-->
 <#list componentList as component><#if component.cmptTyp == "dml">
-			<<#if !component.active>!--</#if>sql name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["target"]["gc"]["buildversion"]}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
+			<<#if !component.active>!--</#if>sqloperational name="${component.cmptTyp}: ${component.cmptName}" src="tmp_out${component.cmptPath}" destLoc="GSDMDataModel" patchLevel="${yamlConfig["target"]["gc"]["baseversion"]}.${buildVersion}" dbDialect="ORACLE"/<#if !component.active>--</#if>>
 </#if></#list>
 			<!--END DML-->
 
@@ -131,13 +126,15 @@
 <#list componentList as component><#if component.cmptTyp == "gso">
 			<<#if !component.active>!--</#if>deployGSE name="${component.cmptTyp}: ${component.cmptName}" destLoc="GSDMDataModel" src="tmp_out${component.cmptPath}" encoding="utf-8"/<#if !component.active>--</#if>>
 </#if></#list>
-			<!--deployGSE name="GSO: ApplicationUser" destLoc="GSDMDataModel" src="tmp_out/gso/GSOConfig/ApplicationUser.gso" encoding="windows-1252"/-->
 			<!--END GSO-->
 
 			<!--START GOC-->
 			<!--END GOC-->
 
 			<!--START PublishingProfile-->
+<#list componentList as component><#if component.cmptTyp == "publishingProfiles">
+			<<#if !component.active>!--</#if>deployGSP name="${component.cmptTyp}: ${component.cmptName}" destLoc="WFDataModel" src="tmp_out${component.cmptPath}" type="workflow"/<#if !component.active>--</#if>>
+</#if></#list>
 			<!--END PublishingProfile-->
 
 			</Tasks>

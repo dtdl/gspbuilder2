@@ -128,3 +128,21 @@ ant:
       temp: ./custom_temp
       package: ../packages/custom/gc
 
+
+#configExcel: ./input/pggm.csv.report.v1.xlsx
+#targetFiles:
+#   file1:
+#      name: <title>.job.xml
+#      template: pggm.csv.report.job.xml.ftl
+#   file2:
+#      name: <title>.properties
+#      template: pggm.csv.report.properties.ftl
+      
+configExcel: ./input/pggm.pvc.v5.xlsx
+targetFiles:
+   file1:
+      name: <title>.job.xml
+      template: pggm.pvc.job.xml.ftl
+   file2:
+      name: <title>.properties
+      template: pggm.pvc.properties.ftl

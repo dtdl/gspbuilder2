@@ -154,7 +154,7 @@ public class GSComponent implements Comparator<GSComponent> {
 
 	@Override
 	public int compare(GSComponent c1, GSComponent c2) {
-		return c1.getCmptName().compareTo(c2.getCmptName());
-//		return c1.getCmptFullPath().compareTo(c2.getCmptFullPath());
+//		return c1.getCmptName().compareTo(c2.getCmptName());
+		return c1.getCmptFullPath().compareTo(c2.getCmptFullPath());
 	}
 }

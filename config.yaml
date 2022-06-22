@@ -95,14 +95,9 @@ target:  ## can be overwritten by runtime parameter -Dtarget=gc,engine
 #         name: build.Engine.xml
 #         template: buildxml.Engine.ftl
 
-# to be removed
-local:
-   folder: D:\Projects\Nikko\E41-svn\trunk\customgc\configuration
-#   folder: D:\Projects\Nikko\E41-svn\trunk\customdwh\configuration
-
 svn:
    user: dtao
-   pass: Encrypted::9BD53DEF2BF0261457B2631229B58A17BCE1041138FC137B
+   pass: Encrypted::9BD53DEF2BF026141A2C6130236F23B3BCE1041138FC137B
 
    
 git:
@@ -129,20 +124,21 @@ ant:
       package: ../packages/custom/gc
 
 
-#configExcel: ./input/pggm.csv.report.v1.xlsx
-#targetFiles:
-#   file1:
-#      name: <title>.job.xml
-#      template: pggm.csv.report.job.xml.ftl
-#   file2:
-#      name: <title>.properties
-#      template: pggm.csv.report.properties.ftl
-      
-configExcel: ./input/pggm.pvc.v5.xlsx
+configExcel: ./input/pggm.csv.report.v2.xlsx
 targetFiles:
    file1:
       name: <title>.job.xml
-      template: pggm.pvc.job.xml.ftl
+      template: pggm.csv.report.job.xml.ftl
    file2:
       name: <title>.properties
-      template: pggm.pvc.properties.ftl
+      template: pggm.csv.report.properties.ftl
+      
+#configExcel: ./input/pggm.pvc.v7.xlsx
+#targetFiles:
+#   file1:
+#      name: <title>.job.xml
+#      template: pggm.pvc.job.xml.ftl
+#   file2:
+#      name: <title>.properties
+#      template: pggm.pvc.properties.ftl
+      
